@@ -70,9 +70,8 @@ class _ContactListPageState extends StateMVC {
 
   @override
   Widget build(BuildContext context) {
-    Contacts.list.build(context, refreshContacts);
     return Scaffold(
-      key: Contacts.list.scaffoldKey,
+      key: _scaffoldKey,
       appBar: AppBar(title: Text('Contacts Plugin Example')),
       floatingActionButton: FloatingActionButton(
           child: Icon(Icons.add),
@@ -88,7 +87,40 @@ class _ContactListPageState extends StateMVC {
                 itemBuilder: (BuildContext context, int index) {
                   Contact c = _contacts?.elementAt(index);
                   Contacts.list.init(c);
-                  return Contacts.list.displayName.dismissible;
+                  return Contacts.list.displayName.onDismissible(
+                    child: Container(
+                      decoration: BoxDecoration(
+                          color: _theme.canvasColor,
+                          border: Border(
+                              bottom: BorderSide(color: _theme.dividerColor))),
+                      child: ListTile(
+                        onTap: () {
+                          Navigator.of(context).push(MaterialPageRoute(
+                              builder: (BuildContext context) =>
+                                  AddContactPage(contact: c)));
+                        },
+                        leading: Contacts.list.displayName.circleAvatar,
+                        title: Contacts.list.displayName.text,
+                      ),
+                    ),
+                    dismissed: (DismissDirection direction) {
+                      Contacts.edit.delete(c);
+                      refreshContacts();
+                      final String action =
+                          (direction == DismissDirection.endToStart)
+                              ? 'deleted'
+                              : 'archived';
+                      _scaffoldKey.currentState?.showSnackBar(SnackBar(
+                          duration: Duration(milliseconds: 8000),
+                          content: Text('You $action an item.'),
+                          action: SnackBarAction(
+                              label: 'UNDO',
+                              onPressed: () {
+                                Contacts.edit.undelete(c);
+                                refreshContacts();
+                              })));
+                    },
+                  );
                 },
               )
             : Center(child: CircularProgressIndicator()),
@@ -96,3 +128,64 @@ class _ContactListPageState extends StateMVC {
     );
   }
 }
+
+//Dismissible(
+//key: ObjectKey(c.id),
+//direction: DismissDirection.endToStart,
+//onDismissed: (DismissDirection direction) {
+//Contacts.edit.delete(c);
+//refreshContacts();
+//final String action =
+//(direction == DismissDirection.endToStart)
+//? 'deleted'
+//    : 'archived';
+//_scaffoldKey.currentState?.showSnackBar(SnackBar(
+//duration: Duration(milliseconds: 8000),
+//content: Text('You $action an item.'),
+//action: SnackBarAction(
+//label: 'UNDO',
+//onPressed: () {
+//Contacts.edit.undelete(c);
+//refreshContacts();
+//})));
+//},
+//background: Container(
+//color: Colors.red,
+//child: const ListTile(
+//trailing: const Icon(Icons.delete,
+//color: Colors.white, size: 36.0))),
+//child: Container(
+//decoration: BoxDecoration(
+//color: _theme.canvasColor,
+//border: Border(
+//bottom: BorderSide(color: _theme.dividerColor))),
+//child: ListTile(
+//onTap: () {
+//Navigator.of(context).push(MaterialPageRoute(
+//builder: (BuildContext context) =>
+//AddContactPage(contact: c)));
+//},
+//leading: Contacts.list.displayName.circleAvatar,
+//title: Contacts.list.displayName.textField,
+//),
+//),
+//);
+
+//Contacts.list.displayName.onDismissible(
+//dismissed: (DismissDirection direction) {
+//Contacts.edit.delete(Contacts.list.displayName.object);
+//refreshContacts();
+//final String action =
+//(direction == DismissDirection.endToStart)
+//? 'deleted'
+//    : 'archived';
+//_scaffoldKey.currentState?.showSnackBar(SnackBar(
+//duration: Duration(milliseconds: 8000),
+//content: Text('You $action an item.'),
+//action: SnackBarAction(
+//label: 'UNDO',
+//onPressed: () {
+//Contacts.edit.undelete(c);
+//refreshContacts();
+//})));
+//});

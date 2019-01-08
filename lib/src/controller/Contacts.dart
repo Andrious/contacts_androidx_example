@@ -22,7 +22,7 @@
 ///
 
 import 'package:flutter/material.dart'
-    show BuildContext, FlutterError, FlutterErrorDetails, FormState, GlobalKey;
+    show BuildContext, FlutterError, FlutterErrorDetails, FormState, GlobalKey, ScaffoldState, VoidCallback;
 
 import '../Controller.dart'
     show
@@ -134,6 +134,16 @@ class ContactEdit extends ContactList {
 
 class ContactList extends ContactFields {
   Contact _contact;
+
+  final GlobalKey<ScaffoldState> scaffoldKey = GlobalKey<ScaffoldState>();
+
+  BuildContext context;
+  VoidCallback refresh;
+
+  void build(BuildContext context, VoidCallback func){
+    this.context = context;
+    refresh = func;
+  }
 
   void init([Contact contact]) {
     if (contact == null) {

@@ -23,9 +23,15 @@
 
 import 'package:flutter/material.dart';
 
+import 'package:mvc_application/app.dart' show App;
+
 import '../Controller.dart' show Field, Item, PostalAddress;
 
 import '../View.dart' show Field, Item;
+
+import '../controller/Contacts.dart';
+
+import '../View/AddContactPage.dart';
 
 class Contact<E> {
   Contact();
@@ -153,77 +159,66 @@ class Contact<E> {
 
   String get suffix => _suffix;
   set suffix(String v) {
-
     if (v == null) v = "";
     _suffix = v;
   }
 
   String get company => _company;
   set company(String v) {
-
     if (v == null) v = "";
     _company = v;
   }
 
   String get jobTitle => _jobTitle;
   set jobTitle(String v) {
-
     if (v == null) v = "";
     _jobTitle = v;
   }
 
   String get phone => _phone;
   set phone(String v) {
-
     if (v == null) v = "";
     _phone = v;
   }
 
   String get email => _email;
   set email(String v) {
-
     if (v == null) v = "";
     _email = v;
   }
 
   List<PostalAddress> get postalAddresses => _postalAddresses;
   set postalAddresses(List<PostalAddress> address) {
-
     if (address == null) return;
     _postalAddresses = address;
   }
 
   String get street => _street;
   set street(String v) {
-
     if (v == null) v = "";
     _street = v;
   }
 
   String get city => _city;
   set city(String v) {
-
     if (v == null) v = "";
     _city = v;
   }
 
   String get region => _region;
   set region(String v) {
-
     if (v == null) v = "";
     _region = v;
   }
 
   String get postcode => _postcode;
   set postcode(String v) {
-
     if (v == null) v = "";
     _postcode = v;
   }
 
   String get country => _country;
   set country(String v) {
-
     if (v == null) v = "";
     _country = v;
   }
@@ -244,11 +239,48 @@ class DisplayName extends Field {
           value: contact?.displayName,
         );
 
+  final ThemeData _theme = App.theme;
+
+  @override
   void onSaved(v) => object?.displayName = value = v;
 
   @override
   CircleAvatar get circleAvatar =>
       CircleAvatar(child: Text(value.length > 1 ? value?.substring(0, 2) : ""));
+
+  @override
+  void onDismissed(DismissDirection direction) {
+    Contacts.edit.delete(object as Contact);
+    Contacts.list.refresh();
+    final String action =
+        (direction == DismissDirection.endToStart) ? 'deleted' : 'archived';
+    Contacts.list.scaffoldKey.currentState?.showSnackBar(SnackBar(
+        duration: Duration(milliseconds: 8000),
+        content: Text('You $action an item.'),
+        action: SnackBarAction(
+            label: 'UNDO',
+            onPressed: () {
+              Contacts.edit.undelete(object as Contact);
+              Contacts.list.refresh();
+            })));
+  }
+
+  @override
+  Widget onChild() {
+    return Container(
+      decoration: BoxDecoration(
+          color: _theme.canvasColor,
+          border: Border(bottom: BorderSide(color: _theme.dividerColor))),
+      child: ListTile(
+        onTap: () {
+          Navigator.of(Contacts.list.context).push(MaterialPageRoute(
+              builder: (BuildContext context) => AddContactPage(contact: object as Contact)));
+        },
+        leading: Contacts.list.displayName.circleAvatar,
+        title: Contacts.list.displayName.text,
+      ),
+    );
+  }
 }
 
 class GivenName extends Field {
@@ -309,7 +341,6 @@ class Phone extends Field {
       : super(object: contact, label: 'Phone', value: contact?.phone);
 
   void onSaved(v) {
-
     if (v == null) return;
     if (v is List<Item>) {
       object?.phones = v;
@@ -336,7 +367,6 @@ class Email extends Field {
       : super(object: contact, label: 'E-mail', value: contact?.email);
 
   void onSaved(v) {
-
     if (v == null) return;
     if (v is List<Item>) {
       object?.emails = v;

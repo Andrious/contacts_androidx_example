@@ -24,8 +24,8 @@
 class PostalAddress {
   PostalAddress({
     this.label,
-  }){
-    if(label == null) label = "";
+  }) {
+    if (label == null) label = "";
   }
 
   PostalAddress.fromMap(Map m) {
@@ -76,7 +76,5 @@ class PostalAddress {
         "postcode": _postcode,
         "region": _region,
         "country": _country
-  };
+      };
 }
-
-

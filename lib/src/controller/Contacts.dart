@@ -22,7 +22,13 @@
 ///
 
 import 'package:flutter/material.dart'
-    show BuildContext, FlutterError, FlutterErrorDetails, FormState, GlobalKey;
+    show
+        BuildContext,
+        FlutterError,
+        FlutterErrorDetails,
+        FormState,
+        GlobalKey,
+        ScaffoldState;
 
 import '../Controller.dart'
     show
@@ -47,7 +53,7 @@ import '../Controller.dart'
         Street,
         Suffix;
 
-
+/// The Controller talks to the Model
 import '../Model.dart' show ContactsService;
 
 class Contacts extends ControllerMVC {
@@ -71,14 +77,14 @@ class Contacts extends ControllerMVC {
 
   static Future<List<Contact>> getContacts() => ContactsService.getContacts();
 
-  static ContactList get list => _listContacts;
-  static ContactList _listContacts = ContactList();
-
   static ContactAdd get add => _addContacts;
   static ContactAdd _addContacts = ContactAdd();
 
   static ContactEdit get edit => _editContacts;
   static ContactEdit _editContacts = ContactEdit();
+
+  static ContactList get list => _listContacts;
+  static ContactList _listContacts = ContactList();
 }
 
 class ContactAdd extends ContactEdit {
@@ -134,6 +140,16 @@ class ContactEdit extends ContactList {
 
 class ContactList extends ContactFields {
   Contact _contact;
+  final GlobalKey<ScaffoldState> scaffoldKey = GlobalKey<ScaffoldState>();
+
+  List<Contact> get items => _contacts;
+  List<Contact> _contacts;
+
+  Future<List<Contact>> refresh() async {
+    _contacts = await Contacts.getContacts();
+    Contacts.rebuild();
+    return _contacts;
+  }
 
   void init([Contact contact]) {
     if (contact == null) {

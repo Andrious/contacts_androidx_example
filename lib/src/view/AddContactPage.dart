@@ -41,17 +41,20 @@ import 'package:flutter/material.dart'
         Text,
         Widget;
 
+import '../View.dart' show StateMVC;
+
 import '../Controller.dart' show Contact, Contacts, PostalAddress;
 
 class AddContactPage extends StatefulWidget {
   AddContactPage({this.contact, Key key}) : super(key: key);
   final Contact contact;
+
   @override
-  State<StatefulWidget> createState() => _AddContactPageState();
+  State createState() => _AddContactState();
 }
 
-class _AddContactPageState extends State<AddContactPage> {
-  PostalAddress address = PostalAddress(label: "Home");
+class _AddContactState extends StateMVC<AddContactPage> {
+  final PostalAddress address = PostalAddress(label: "Home");
 
   @override
   void initState() {

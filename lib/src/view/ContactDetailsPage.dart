@@ -47,17 +47,15 @@ class ContactDetailsPage extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     return Scaffold(
-        appBar: AppBar(
-            title: Contacts.edit.displayName.text,
-            actions: <Widget>[
-              FlatButton(
-                  child: Icon(Icons.delete),
-                  onPressed: () {
-                    Contacts.edit.delete(_contact);
-                    Contacts.rebuild();
-                    Navigator.of(context).pop();
-                  })
-            ]),
+        appBar: AppBar(title: Contacts.edit.displayName.text, actions: <Widget>[
+          FlatButton(
+              child: Icon(Icons.delete),
+              onPressed: () {
+                Contacts.edit.delete(_contact);
+                Contacts.rebuild();
+                Navigator.of(context).pop();
+              })
+        ]),
         body: SafeArea(
           child: ListView(
             children: [

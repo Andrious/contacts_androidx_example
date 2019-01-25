@@ -12,7 +12,7 @@ import '../lib/src/model/ContactsService.dart';
 
 void main() {
   const MethodChannel channel =
-  MethodChannel('github.com/clovisnicolas/flutter_contacts');
+      MethodChannel('github.com/clovisnicolas/flutter_contacts');
   final List<MethodCall> log = <MethodCall>[];
   channel.setMockMethodCallHandler((MethodCall methodCall) async {
     log.add(methodCall);
@@ -47,22 +47,22 @@ void main() {
   });
 
   test('should add contact', () async {
-    await ContactsService.addContact(
-        {"givenName": 'givenName',
-          "emails": [Item(label: 'label')],
-          "phones": [Item(label: 'label')],
-        "postalAddresses": [PostalAddress(label: 'label')],
-        });
+    await ContactsService.addContact({
+      "givenName": 'givenName',
+      "emails": [Item(label: 'label')],
+      "phones": [Item(label: 'label')],
+      "postalAddresses": [PostalAddress(label: 'label')],
+    });
     expectMethodCall(log, 'addContact');
   });
 
   test('should delete contact', () async {
-    await ContactsService.deleteContact(
-        {"givenName": 'givenName',
-          "emails": [Item(label: 'label')],
-          "phones": [Item(label: 'label')],
-          "postalAddresses": [PostalAddress(label: 'label')],
-        });
+    await ContactsService.deleteContact({
+      "givenName": 'givenName',
+      "emails": [Item(label: 'label')],
+      "phones": [Item(label: 'label')],
+      "postalAddresses": [PostalAddress(label: 'label')],
+    });
     expectMethodCall(log, 'deleteContact');
   });
 }

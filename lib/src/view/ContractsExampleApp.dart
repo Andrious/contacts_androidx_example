@@ -29,7 +29,6 @@ import 'package:contacts_service_example/src/View.dart'
     show AddContactPage, ContactListPage;
 
 class ContactsExampleApp extends View {
-
   ContactsExampleApp()
       : super(
             title: 'Contacts Plugin Example',

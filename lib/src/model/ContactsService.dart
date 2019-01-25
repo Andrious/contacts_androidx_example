@@ -30,17 +30,16 @@ import 'package:dbutils/sqllitedb.dart';
 
 import 'package:contacts_service_example/src/Controller.dart';
 
-
-class ContactsService extends DBInterface{
-
-  factory ContactsService(){
-    if(_this == null) _this = ContactsService._();
+class ContactsService extends DBInterface {
+  factory ContactsService() {
+    if (_this == null) _this = ContactsService._();
     return _this;
   }
+
   /// Make only one instance of this class.
   static ContactsService _this;
 
-  ContactsService._(): super();
+  ContactsService._() : super();
 
   @override
   get name => 'Contacts';
@@ -48,14 +47,13 @@ class ContactsService extends DBInterface{
   @override
   get version => 1;
 
-  static initState(){
+  static initState() {
     ContactsService().init();
   }
 
-  static void dispose(){
+  static void dispose() {
     ContactsService().disposed();
   }
-
 
   Future onConfigure(Database db) {
     return db.execute("PRAGMA foreign_keys=ON;");
@@ -63,7 +61,6 @@ class ContactsService extends DBInterface{
 
   @override
   Future onCreate(Database db, int version) async {
-
     await db.execute("""
      CREATE TABLE Contacts(
               id INTEGER PRIMARY KEY
@@ -112,14 +109,15 @@ class ContactsService extends DBInterface{
   }
 
   static Future<List<Contact>> getContacts() async {
-    return listContacts(await _this.rawQuery('SELECT * FROM Contacts WHERE deleted = 0'));
+    return listContacts(
+        await _this.rawQuery('SELECT * FROM Contacts WHERE deleted = 0'));
   }
 
-  static List<Contact> listContacts(List<Map<String, dynamic>> query){
+  static List<Contact> listContacts(List<Map<String, dynamic>> query) {
     List<Contact> contactList = [];
-    for(var contact in query){
-      Map<String, dynamic> map = contact.map((key, value){
-        return MapEntry(key,value is int ? value?.toString() : value);
+    for (var contact in query) {
+      Map<String, dynamic> map = contact.map((key, value) {
+        return MapEntry(key, value is int ? value?.toString() : value);
       });
       contactList.add(Contact.fromMap(map));
     }
@@ -128,30 +126,31 @@ class ContactsService extends DBInterface{
 
   static Future<bool> addContact(Map contact) async {
 //   return _this.runTxn(() async {
-     bool add = await _this.saveMap('Contacts', contact);
+    bool add = await _this.saveMap('Contacts', contact);
 //       await _this.saveMap('emails', contact['emails']);
 //       await _this.saveMap('phones', contact['phones']);
 //       await _this.saveMap('addresses', contact['postalAddresses']);
-     return add;
+    return add;
 //   });
   }
 
   static Future<int> deleteContact(Map contact) async {
     var id = contact['id'];
-    if(id == null) return Future.value(0);
-    if(id is String) id = int.parse(id);
-    List<Map<String, dynamic>> query = await _this.rawQuery('UPDATE Contacts SET deleted = 1 WHERE id = $id');
+    if (id == null) return Future.value(0);
+    if (id is String) id = int.parse(id);
+    List<Map<String, dynamic>> query =
+        await _this.rawQuery('UPDATE Contacts SET deleted = 1 WHERE id = $id');
     return query.length;
 //    return _this.delete('Contacts', id);
   }
 
   static Future<int> undeleteContact(Map contact) async {
     var id = contact['id'];
-    if(id == null) return Future.value(0);
-    if(id is String) id = int.parse(id);
-    List<Map<String, dynamic>> query = await _this.rawQuery('UPDATE Contacts SET deleted = 0 WHERE id = $id');
+    if (id == null) return Future.value(0);
+    if (id is String) id = int.parse(id);
+    List<Map<String, dynamic>> query =
+        await _this.rawQuery('UPDATE Contacts SET deleted = 0 WHERE id = $id');
     return query.length;
 //    return _this.delete('Contacts', id);
   }
 }
-

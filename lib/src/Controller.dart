@@ -25,6 +25,8 @@ export 'package:mvc_application/view.dart' show Field, Item;
 
 export 'package:mvc_application/controller.dart' show ControllerMVC;
 
+export 'package:mvc_application/mvc.dart' show Controller;
+
 export 'controller/Contacts.dart';
 
 export 'controller/Contact.dart';

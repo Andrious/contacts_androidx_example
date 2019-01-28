@@ -5,6 +5,6 @@ import 'package:flutter/material.dart' show runApp;
 
 import 'package:contacts_service_example/src/View.dart' show ContactsExampleApp;
 
-import 'package:mvc_application/mvc.dart' show App;
+import 'package:mvc_application/mvc.dart' show MVC;
 
-void main() => runApp(App(ContactsExampleApp()));
+void main() => runApp(MVC(ContactsExampleApp()));

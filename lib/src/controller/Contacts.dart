@@ -35,7 +35,7 @@ import '../Controller.dart'
         City,
         Company,
         Contact,
-        ControllerMVC,
+        Controller,
         Country,
         DisplayName,
         Email,
@@ -56,7 +56,7 @@ import '../Controller.dart'
 /// The Controller talks to the Model
 import '../Model.dart' show ContactsService;
 
-class Contacts extends ControllerMVC {
+class Contacts extends Controller {
   factory Contacts() {
     if (_this == null) _this = Contacts._();
     return _this;

@@ -11,9 +11,9 @@ dependencies:
     sdk: flutter
 
   mvc_application:
-    path: ../../packages/mvc_application
-#    git:
-#      url: git://github.com/AndriousSolutions/mvc_application.git
+#    path: ../../packages/mvc_application
+    git:
+      url: git://github.com/AndriousSolutions/mvc_application.git
 
   dbutils:
 #    path: ../../libs/dbutils

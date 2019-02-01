@@ -1,7 +1,7 @@
 name: contacts_service_example
 description: Demonstrates how to use the contacts_service plugin.
 
-version: 1.2.0
+version: 1.3.0
 
 environment:
   sdk: ">=2.0.0-dev.68.0 <3.0.0"
@@ -11,9 +11,9 @@ dependencies:
     sdk: flutter
 
   mvc_application:
-#    path: ../../packages/mvc_application
-    git:
-      url: git://github.com/AndriousSolutions/mvc_application.git
+    path: ../../packages/mvc_application
+#    git:
+#      url: git://github.com/AndriousSolutions/mvc_application.git
 
   dbutils:
 #    path: ../../libs/dbutils

@@ -7,7 +7,7 @@
 import 'package:flutter/services.dart';
 import 'package:flutter_test/flutter_test.dart';
 
-import '../lib/src/Controller.dart';
+import '../lib/src/controller.dart';
 import '../lib/src/model/ContactsService.dart';
 
 void main() {

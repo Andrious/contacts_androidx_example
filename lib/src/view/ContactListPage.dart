@@ -23,11 +23,40 @@
 
 import 'package:mvc_application/app.dart' show App;
 
-import 'package:flutter/material.dart';
+import 'package:flutter/material.dart'
+    show
+        AppBar,
+        Border,
+        BorderSide,
+        BoxDecoration,
+        BuildContext,
+        Center,
+        CircularProgressIndicator,
+        Container,
+        DismissDirection,
+        FloatingActionButton,
+        Icon,
+        Icons,
+        Key,
+        ListTile,
+        ListView,
+        MaterialPageRoute,
+        Navigator,
+        SafeArea,
+        Scaffold,
+        SnackBar,
+        SnackBarAction,
+        State,
+        StatefulWidget,
+        Text,
+        ThemeData,
+        Widget;
 
-import '../Controller.dart' show Contact, Contacts;
+import '../model.dart' show Contact;
 
-import '../View.dart' show AddContactPage, StateMVC;
+import '../view.dart' show AddContactPage, StateMVC;
+
+import '../controller.dart' show Controller;
 
 class ContactListPage extends StatefulWidget {
   ContactListPage({Key key}) : super(key: key);
@@ -36,47 +65,31 @@ class ContactListPage extends StatefulWidget {
 }
 
 class _ContactListState extends StateMVC<ContactListPage> {
-  _ContactListState() : super(Contacts());
-
-  @override
-  void initState() {
-    super.initState();
-    Contacts.init();
-    Contacts.list.refresh();
-  }
-
-  @override
-  void dispose() {
-    Contacts.disposed();
-    super.dispose();
-  }
-
-  @override
-  void onError(FlutterErrorDetails details) =>
-      FlutterError.dumpErrorToConsole(details);
-
+  _ContactListState() : super(con);
+  static final Controller con = Controller();
+  
   @override
   Widget build(BuildContext context) {
     ThemeData _theme = App.theme;
     return Scaffold(
-      key: Contacts.list.scaffoldKey,
+      key: con.list.scaffoldKey,
       appBar: AppBar(title: Text('Contacts Plugin Example')),
       floatingActionButton: FloatingActionButton(
           child: Icon(Icons.add),
           onPressed: () {
             Navigator.of(context).pushNamed("/add").then((_) {
-              Contacts.list.refresh();
+              con.list.refresh();
             });
           }),
       body: SafeArea(
-        child: Contacts.list.items == null
+        child: con.list.items == null
             ? Center(child: CircularProgressIndicator())
             : ListView.builder(
-                itemCount: Contacts.list.items?.length ?? 0,
+                itemCount: con.list.items?.length ?? 0,
                 itemBuilder: (BuildContext context, int index) {
-                  Contact c = Contacts.list.items?.elementAt(index);
-                  Contacts.list.init(c);
-                  return Contacts.list.displayName.onDismissible(
+                  Contact c = con.list.items?.elementAt(index);
+                  con.list.init(c);
+                  return con.list.displayName.onDismissible(
                     child: Container(
                       decoration: BoxDecoration(
                           color: _theme.canvasColor,
@@ -88,26 +101,26 @@ class _ContactListState extends StateMVC<ContactListPage> {
                               builder: (BuildContext context) =>
                                   AddContactPage(contact: c)));
                         },
-                        leading: Contacts.list.displayName.circleAvatar,
-                        title: Contacts.list.displayName.text,
+                        leading: con.list.displayName.circleAvatar,
+                        title: con.list.displayName.text,
                       ),
                     ),
                     dismissed: (DismissDirection direction) {
-                      Contacts.edit.delete(c);
-                      Contacts.list.refresh();
+                      Controller.edit.delete(c);
+                      con.list.refresh();
                       final String action =
                           (direction == DismissDirection.endToStart)
                               ? 'deleted'
                               : 'archived';
-                      Contacts.list.scaffoldKey.currentState
+                      con.list.scaffoldKey.currentState
                           ?.showSnackBar(SnackBar(
                               duration: Duration(milliseconds: 8000),
                               content: Text('You $action an item.'),
                               action: SnackBarAction(
                                   label: 'UNDO',
                                   onPressed: () {
-                                    Contacts.edit.undelete(c);
-                                    Contacts.list.refresh();
+                                    Controller.edit.undelete(c);
+                                    con.list.refresh();
                                   })));
                     },
                   );

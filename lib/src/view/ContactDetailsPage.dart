@@ -36,38 +36,42 @@ import 'package:flutter/material.dart'
         StatelessWidget,
         Widget;
 
-import '../Controller.dart' show Contact, Contacts;
+
+import '../model.dart' show Contact;
+
+import '../controller.dart' show Controller;
+
 
 class ContactDetailsPage extends StatelessWidget {
   ContactDetailsPage(this._contact, {Key key}) : super(key: key) {
-    Contacts.edit.init(_contact);
+    Controller.edit.init(_contact);
   }
   final Contact _contact;
 
   @override
   Widget build(BuildContext context) {
     return Scaffold(
-        appBar: AppBar(title: Contacts.edit.displayName.text, actions: <Widget>[
+        appBar: AppBar(title: Controller.edit.displayName.text, actions: <Widget>[
           FlatButton(
               child: Icon(Icons.delete),
               onPressed: () {
-                Contacts.edit.delete(_contact);
-                Contacts.rebuild();
+                Controller.edit.delete(_contact);
+                Controller.rebuild();
                 Navigator.of(context).pop();
               })
         ]),
         body: SafeArea(
           child: ListView(
             children: [
-              Contacts.edit.givenName.listTile,
-              Contacts.edit.middleName.listTile,
-              Contacts.edit.familyName.listTile,
-              Contacts.edit.prefix.listTile,
-              Contacts.edit.suffix.listTile,
-              Contacts.edit.company.listTile,
-              Contacts.edit.jobTitle.listTile,
-              Contacts.edit.phone.listItems,
-              Contacts.edit.email.listItems,
+              Controller.edit.givenName.listTile,
+              Controller.edit.middleName.listTile,
+              Controller.edit.familyName.listTile,
+              Controller.edit.prefix.listTile,
+              Controller.edit.suffix.listTile,
+              Controller.edit.company.listTile,
+              Controller.edit.jobTitle.listTile,
+              Controller.edit.phone.listItems,
+              Controller.edit.email.listItems,
             ],
           ),
         ));

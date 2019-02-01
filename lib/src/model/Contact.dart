@@ -23,9 +23,11 @@
 
 import 'package:flutter/material.dart';
 
-import '../Controller.dart' show Field, Item, PostalAddress;
+import '../controller.dart' show Field, Item;
 
-import '../View.dart' show Field, Item;
+import '../model.dart' show PostalAddress;
+
+import '../view.dart' show Field, Item;
 
 class Contact<E> {
   Contact();

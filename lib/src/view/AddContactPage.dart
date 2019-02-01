@@ -41,9 +41,11 @@ import 'package:flutter/material.dart'
         Text,
         Widget;
 
-import '../View.dart' show StateMVC;
+import '../model.dart' show Contact, PostalAddress;
 
-import '../Controller.dart' show Contact, Contacts, PostalAddress;
+import '../view.dart' show StateMVC;
+
+import '../controller.dart' show Controller;
 
 class AddContactPage extends StatefulWidget {
   AddContactPage({this.contact, Key key}) : super(key: key);
@@ -59,7 +61,7 @@ class _AddContactState extends StateMVC<AddContactPage> {
   @override
   void initState() {
     super.initState();
-    Contacts.add.init(widget.contact);
+    Controller.add.init(widget.contact);
     //   _address = PostalAddress(label: "Home");
   }
 
@@ -71,7 +73,7 @@ class _AddContactState extends StateMVC<AddContactPage> {
         actions: <Widget>[
           FlatButton(
               onPressed: () {
-                Contacts.add.onPressed();
+                Controller.add.onPressed();
                 Navigator.of(context).pop();
               },
               child: Icon(Icons.save, color: Colors.white))
@@ -80,26 +82,29 @@ class _AddContactState extends StateMVC<AddContactPage> {
       body: Container(
         padding: EdgeInsets.all(12.0),
         child: Form(
-            key: Contacts.add.formKey,
+            key: Controller.add.formKey,
             child: ListView(
               children: [
-                Contacts.add.givenName.textFormField,
-                Contacts.add.middleName.textFormField,
-                Contacts.add.familyName.textFormField,
-                Contacts.add.prefix.textFormField,
-                Contacts.add.suffix.textFormField,
-                Contacts.add.phone.textFormField,
-                Contacts.add.email.textFormField,
-                Contacts.add.company.textFormField,
-                Contacts.add.jobTitle.textFormField,
-                Contacts.add.street.textFormField,
-                Contacts.add.city.textFormField,
-                Contacts.add.region.textFormField,
-                Contacts.add.postcode.textFormField,
-                Contacts.add.country.textFormField,
+                Controller.add.givenName.textFormField,
+                Controller.add.middleName.textFormField,
+                Controller.add.familyName.textFormField,
+                Controller.add.prefix.textFormField,
+                Controller.add.suffix.textFormField,
+                Controller.add.phone.textFormField,
+                Controller.add.email.textFormField,
+                Controller.add.company.textFormField,
+                Controller.add.jobTitle.textFormField,
+                Controller.add.street.textFormField,
+                Controller.add.city.textFormField,
+                Controller.add.region.textFormField,
+                Controller.add.postcode.textFormField,
+                Controller.add.country.textFormField,
               ],
             )),
       ),
     );
   }
 }
+
+
+

@@ -21,14 +21,16 @@
 ///
 ///
 
-export 'package:mvc_application/view.dart' show Field, Item;
+export 'package:mvc_application/view.dart';
 
-export 'package:mvc_application/controller.dart' show ControllerMVC;
+export 'view/ContractsExampleApp.dart';
 
-export 'package:mvc_application/mvc.dart' show Controller;
+export 'view/ContactListPage.dart';
 
-export 'controller/Contacts.dart';
+export 'view/ContactDetailsPage.dart';
 
-export 'controller/Contact.dart';
+export 'view/AddContactPage.dart';
 
-export 'controller/PostalAddress.dart';
+export 'view/AddressesTile.dart';
+
+

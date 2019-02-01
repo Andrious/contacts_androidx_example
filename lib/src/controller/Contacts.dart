@@ -21,49 +21,34 @@
 ///
 ///
 
-import 'package:flutter/material.dart'
-    show
-        BuildContext,
-        FlutterError,
-        FlutterErrorDetails,
-        FormState,
-        GlobalKey,
-        ScaffoldState;
-
-import '../Controller.dart'
-    show
-        City,
-        Company,
-        Contact,
-        Controller,
-        Country,
-        DisplayName,
-        Email,
-        FamilyName,
-        Field,
-        GivenName,
-        Id,
-        JobTitle,
-        MiddleName,
-        Phone,
-        PostalAddress,
-        Postcode,
-        Prefix,
-        Region,
-        Street,
-        Suffix;
+import 'package:flutter/material.dart' show FlutterError, FlutterErrorDetails;
 
 /// The Controller talks to the Model
-import '../Model.dart' show ContactsService;
+import '../model.dart'
+    show Contact, ContactsService, ContactAdd, ContactEdit, ContactList;
 
-class Contacts extends Controller {
-  factory Contacts() {
-    if (_this == null) _this = Contacts._();
+import '../controller.dart' show ConMVC;
+
+class Controller extends ConMVC {
+  factory Controller() {
+    if (_this == null) _this = Controller._();
     return _this;
   }
-  static Contacts _this;
+  static Controller _this;
 
-  Contacts._() : super();
+  Controller._() : super();
+
+  @override
+  void initState() {
+    init();
+    list.refresh();
+  }
+
+  @override
+  void dispose() {
+    disposed();
+    super.dispose();
+  }
 
   static void init() => ContactsService.initState();
 
@@ -83,162 +68,6 @@ class Contacts extends Controller {
   static ContactEdit get edit => _editContacts;
   static ContactEdit _editContacts = ContactEdit();
 
-  static ContactList get list => _listContacts;
+  ContactList get list => _listContacts;
   static ContactList _listContacts = ContactList();
-}
-
-class ContactAdd extends ContactEdit {
-  @override
-  void init([Contact contact]) {
-    super.init(contact);
-    phone = Phone.single(phone.object);
-    email = Email.single(email.object);
-  }
-
-  bool _inForm = false;
-  final GlobalKey<FormState> _formKey = GlobalKey<FormState>();
-  PostalAddress _address = PostalAddress(label: "");
-
-  GlobalKey<FormState> get formKey {
-    if (!_inForm) {
-      _inForm = true;
-    }
-    return _formKey;
-  }
-
-  void onPressed([BuildContext context]) {
-    if (!_formKey.currentState.validate()) return;
-    _formKey.currentState.save();
-    _inForm = false;
-    _contact.postalAddresses = [_address];
-    add();
-  }
-}
-
-class ContactEdit extends ContactList {
-  Future add([Contact contact]) {
-    if (contact == null) {
-      contact = _contact;
-    }
-    return ContactsService.addContact(contact.toMap);
-  }
-
-  Future delete([Contact contact]) {
-    if (contact == null) {
-      contact = _contact;
-    }
-    return ContactsService.deleteContact(contact.toMap);
-  }
-
-  Future undelete([Contact contact]) {
-    if (contact == null) {
-      contact = _contact;
-    }
-    return ContactsService.undeleteContact(contact.toMap);
-  }
-}
-
-class ContactList extends ContactFields {
-  Contact _contact;
-  final GlobalKey<ScaffoldState> scaffoldKey = GlobalKey<ScaffoldState>();
-
-  List<Contact> get items => _contacts;
-  List<Contact> _contacts;
-
-  Future<List<Contact>> refresh() async {
-    _contacts = await Contacts.getContacts();
-    Contacts.rebuild();
-    return _contacts;
-  }
-
-  void init([Contact contact]) {
-    if (contact == null) {
-      _contact = Contact();
-    } else {
-      _contact = contact;
-    }
-    _id = Id(_contact);
-    _displayName = DisplayName(_contact);
-    _givenName = GivenName(_contact);
-    _middleName = MiddleName(_contact);
-    _familyName = FamilyName(_contact);
-    _prefix = Prefix(_contact);
-    _suffix = Suffix(_contact);
-    _company = Company(_contact);
-    _jobTitle = JobTitle(_contact);
-    _phone = Phone(_contact);
-    _email = Email(_contact);
-    _street = Street(_contact);
-    _city = City(_contact);
-    _region = Region(_contact);
-    _postcode = Postcode(_contact);
-    _country = Country(_contact);
-  }
-}
-
-class ContactFields {
-  Field _id,
-      _displayName,
-      _givenName,
-      _middleName,
-      _familyName,
-      _prefix,
-      _suffix,
-      _company,
-      _jobTitle,
-      _phone,
-      _email,
-      _street,
-      _city,
-      _region,
-      _postcode,
-      _country;
-
-  Id get id => _id;
-  set id(Id id) => _id = id;
-
-  DisplayName get displayName => _displayName;
-  set displayName(DisplayName name) => _displayName = name;
-
-  GivenName get givenName => _givenName;
-  set givenName(GivenName name) => _givenName = name;
-
-  MiddleName get middleName => _middleName;
-  set middleName(MiddleName name) => _middleName = name;
-
-  FamilyName get familyName => _familyName;
-  set familyName(FamilyName name) => _familyName = name;
-
-  Prefix get prefix => _prefix;
-  set prefix(Prefix prefix) => _prefix = prefix;
-
-  Suffix get suffix => _suffix;
-  set suffix(Suffix suffix) => _suffix = suffix;
-
-  Company get company => _company;
-  set company(Company company) => _company = company;
-
-  JobTitle get jobTitle => _jobTitle;
-  set jobTitle(JobTitle job) => _jobTitle = job;
-
-  Phone get phone => _phone;
-  set phone(Phone phone) => _phone = phone;
-
-  Email get email => _email;
-  set email(Email email) => _email = email;
-
-  Street get street => _street;
-  set street(Street street) => _street = email;
-
-  City get city => _city;
-  set city(City city) => _city = city;
-
-  Region get region => _region;
-  set region(Region region) => _region = region;
-
-  Postcode get postcode => _postcode;
-  set postcode(Postcode postcode) => _postcode = postcode;
-
-  Country get country => _country;
-  set country(Country country) => _country = country;
 }

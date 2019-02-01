@@ -23,15 +23,17 @@
 
 import 'package:flutter/material.dart' show BuildContext;
 
-import 'package:mvc_application/mvc.dart' show View;
+import 'package:mvc_application/mvc.dart' show ViewMVC;
 
-import 'package:contacts_service_example/src/View.dart'
+import '../view.dart'
     show AddContactPage, ContactListPage;
 
-class ContactsExampleApp extends View {
+class ContactsExampleApp extends ViewMVC {
   ContactsExampleApp()
       : super(
             title: 'Contacts Plugin Example',
             routes: {'/add': (BuildContext context) => AddContactPage()},
             home: ContactListPage());
 }
+
+

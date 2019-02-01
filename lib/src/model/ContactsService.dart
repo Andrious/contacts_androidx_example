@@ -20,15 +20,16 @@
 ///          Created  18 Dec 2018
 ///
 ///
-import 'dart:async';
+import 'dart:async' show Future;
 
-import 'dart:core';
+import 'dart:core'
+    show Future, List, Map, MapEntry, String, bool, dynamic, int, override;
 
-import 'package:sqflite/sqflite.dart';
+import 'package:sqflite/sqflite.dart' show Database;
 
-import 'package:dbutils/sqllitedb.dart';
+import 'package:dbutils/sqllitedb.dart' show DBInterface;
 
-import 'package:contacts_service_example/src/Controller.dart';
+import '../model.dart' show Contact;
 
 class ContactsService extends DBInterface {
   factory ContactsService() {
@@ -38,6 +39,9 @@ class ContactsService extends DBInterface {
 
   /// Make only one instance of this class.
   static ContactsService _this;
+
+  /// Allow for easy access to this class throughout the application.
+  static ContactsService get mod => _this ?? ContactsService();
 
   ContactsService._() : super();
 

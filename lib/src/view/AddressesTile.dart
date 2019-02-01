@@ -34,7 +34,7 @@ import 'package:flutter/material.dart'
         Text,
         Widget;
 
-import '../Controller.dart' show PostalAddress;
+import '../model.dart' show PostalAddress;
 
 class AddressesTile extends StatelessWidget {
   AddressesTile(this._addresses, {Key key}) : super(key: key);

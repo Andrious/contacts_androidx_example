@@ -3,8 +3,13 @@
 
 import 'package:flutter/material.dart' show runApp;
 
-import 'package:contacts_service_example/src/View.dart' show ContactsExampleApp;
-
 import 'package:mvc_application/mvc.dart' show MVC;
 
+import 'src/view.dart' show ContactsExampleApp;
+
 void main() => runApp(MVC(ContactsExampleApp()));
+
+
+
+
+

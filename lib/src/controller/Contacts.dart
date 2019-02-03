@@ -27,9 +27,9 @@ import 'package:flutter/material.dart' show FlutterError, FlutterErrorDetails;
 import '../model.dart'
     show Contact, ContactsService, ContactAdd, ContactEdit, ContactList;
 
-import '../controller.dart' show ConMVC;
+import '../controller.dart' show ControllerMVC;
 
-class Controller extends ConMVC {
+class Controller extends ControllerMVC {
   factory Controller() {
     if (_this == null) _this = Controller._();
     return _this;

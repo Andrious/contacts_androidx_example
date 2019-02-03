@@ -4,6 +4,7 @@
 ## [1.1.0] - 2019-01-25: incorporate mvc_pattern 3.0
 ## [1.2.0] - 2019-01-28: incorporate mvc_application 0.5.0
 ## [1.3.0] - 2019-01-28: incorporate mvc_application 0.6.0
+## [1.4.0] - 2019-02-03: introduced ContactDetailsPage.dart
 
 
 

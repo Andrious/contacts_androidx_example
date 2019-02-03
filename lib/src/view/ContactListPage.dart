@@ -54,7 +54,7 @@ import 'package:flutter/material.dart'
 
 import '../model.dart' show Contact;
 
-import '../view.dart' show AddContactPage, StateMVC;
+import '../view.dart' show ContactDetailsPage, StateMVC;
 
 import '../controller.dart' show Controller;
 
@@ -99,7 +99,7 @@ class _ContactListState extends StateMVC<ContactListPage> {
                         onTap: () {
                           Navigator.of(context).push(MaterialPageRoute(
                               builder: (BuildContext context) =>
-                                  AddContactPage(contact: c)));
+                                  ContactDetailsPage(contact: c)));
                         },
                         leading: con.list.displayName.circleAvatar,
                         title: con.list.displayName.text,

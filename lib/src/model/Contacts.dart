@@ -22,7 +22,11 @@
 ///
 
 import 'package:flutter/material.dart'
-    show BuildContext, FormState, GlobalKey, ScaffoldState;
+    show
+        BuildContext,
+        FormState,
+        GlobalKey,
+        ScaffoldState;
 
 import '../controller.dart' show Controller;
 
@@ -58,6 +62,17 @@ class ContactAdd extends ContactEdit {
     email = Email.single(email.object);
   }
 
+  void onPressed([BuildContext context]) {
+    if (!_formKey.currentState.validate()) return;
+    _formKey.currentState.save();
+    _inForm = false;
+    _contact.postalAddresses = [_address];
+    add();
+    refresh();
+  }
+}
+
+class ContactEdit extends ContactList {
   bool _inForm = false;
   final GlobalKey<FormState> _formKey = GlobalKey<FormState>();
   PostalAddress _address = PostalAddress(label: "");
@@ -69,16 +84,6 @@ class ContactAdd extends ContactEdit {
     return _formKey;
   }
 
-  void onPressed([BuildContext context]) {
-    if (!_formKey.currentState.validate()) return;
-    _formKey.currentState.save();
-    _inForm = false;
-    _contact.postalAddresses = [_address];
-    add();
-  }
-}
-
-class ContactEdit extends ContactList {
   Future add([Contact contact]) {
     if (contact == null) {
       contact = _contact;

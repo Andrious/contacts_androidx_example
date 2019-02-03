@@ -23,8 +23,6 @@
 
 import 'package:flutter/material.dart';
 
-import '../controller.dart' show Field, Item;
-
 import '../model.dart' show PostalAddress;
 
 import '../view.dart' show Field, Item;
@@ -259,7 +257,11 @@ class MiddleName extends Field {
 
 class FamilyName extends Field {
   FamilyName([Contact contact])
-      : super(object: contact, label: 'Last Name', value: contact?.familyName);
+      : super(
+          object: contact,
+          label: 'Last Name',
+          value: contact?.familyName,
+        );
 
   void onSaved(v) => object?.familyName = value = v;
 }

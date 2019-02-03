@@ -21,59 +21,67 @@
 ///
 ///
 
-import 'package:flutter/material.dart'
-    show
-        AppBar,
-        BuildContext,
-        FlatButton,
-        Icon,
-        Icons,
-        Key,
-        ListView,
-        Navigator,
-        SafeArea,
-        Scaffold,
-        StatelessWidget,
-        Widget;
-
+import 'package:flutter/material.dart';
 
 import '../model.dart' show Contact;
 
+import '../view.dart' show AddContactPage;
+
 import '../controller.dart' show Controller;
 
-
 class ContactDetailsPage extends StatelessWidget {
-  ContactDetailsPage(this._contact, {Key key}) : super(key: key) {
-    Controller.edit.init(_contact);
+  ContactDetailsPage({this.contact, Key key}) : super(key: key) {
+    Controller.edit.init(contact);
   }
-  final Contact _contact;
+  final Contact contact;
 
   @override
   Widget build(BuildContext context) {
     return Scaffold(
-        appBar: AppBar(title: Controller.edit.displayName.text, actions: <Widget>[
+        appBar: AppBar(title: Controller.edit.displayName.text, actions: [
           FlatButton(
-              child: Icon(Icons.delete),
+              child: Icon(Icons.delete, color: Colors.white),
               onPressed: () {
-                Controller.edit.delete(_contact);
+                Controller.edit.delete(contact);
                 Controller.rebuild();
                 Navigator.of(context).pop();
-              })
+              }),
+          FlatButton(
+            child: Icon(Icons.search, color: Colors.white),
+            onPressed: () {
+//              Controller.add.onPressed();
+//              Navigator.of(context).pop();
+            },
+          ),
+          FlatButton(
+            child: Icon(Icons.edit, color: Colors.white),
+            onPressed: () {
+              Navigator.of(context).push(MaterialPageRoute(
+                  builder: (BuildContext context) =>
+                      AddContactPage(contact: contact, title: 'Edit a contact')));
+            },
+          ),
         ]),
         body: SafeArea(
           child: ListView(
             children: [
-              Controller.edit.givenName.listTile,
-              Controller.edit.middleName.listTile,
-              Controller.edit.familyName.listTile,
-              Controller.edit.prefix.listTile,
-              Controller.edit.suffix.listTile,
-              Controller.edit.company.listTile,
-              Controller.edit.jobTitle.listTile,
+              Controller.edit.givenName.onListTile(tap: (){editContact(contact, context);}),
+              Controller.edit.middleName.onListTile(tap: (){editContact(contact, context);}),
+              Controller.edit.familyName.onListTile(tap: (){editContact(contact, context);}),
+              Controller.edit.prefix.onListTile(tap: (){editContact(contact, context);}),
+              Controller.edit.suffix.onListTile(tap: (){editContact(contact, context);}),
+              Controller.edit.company.onListTile(tap: (){editContact(contact, context);}),
+              Controller.edit.jobTitle.onListTile(tap: (){editContact(contact, context);}),
               Controller.edit.phone.listItems,
               Controller.edit.email.listItems,
             ],
           ),
         ));
+  }
+
+  editContact(Contact contact, BuildContext context){
+    Navigator.of(context).push(MaterialPageRoute(
+        builder: (BuildContext context) =>
+            AddContactPage(contact: contact, title: 'Edit a contact')));
   }
 }

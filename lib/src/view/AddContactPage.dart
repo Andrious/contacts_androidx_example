@@ -48,8 +48,9 @@ import '../view.dart' show StateMVC;
 import '../controller.dart' show Controller;
 
 class AddContactPage extends StatefulWidget {
-  AddContactPage({this.contact, Key key}) : super(key: key);
+  AddContactPage({this.contact, this.title, Key key}) : super(key: key);
   final Contact contact;
+  final String title;
 
   @override
   State createState() => _AddContactState();
@@ -69,14 +70,15 @@ class _AddContactState extends StateMVC<AddContactPage> {
   Widget build(BuildContext context) {
     return Scaffold(
       appBar: AppBar(
-        title: Text("Add a contact"),
-        actions: <Widget>[
+        title: Text(widget.title ?? "Add a contact"),
+        actions: [
           FlatButton(
-              onPressed: () {
-                Controller.add.onPressed();
-                Navigator.of(context).pop();
-              },
-              child: Icon(Icons.save, color: Colors.white))
+            child: Icon(Icons.save, color: Colors.white),
+            onPressed: () {
+              Controller.add.onPressed();
+              Navigator.of(context).pop();
+            },
+          )
         ],
       ),
       body: Container(
@@ -105,6 +107,3 @@ class _AddContactState extends StateMVC<AddContactPage> {
     );
   }
 }
-
-
-

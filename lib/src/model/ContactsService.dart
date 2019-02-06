@@ -29,7 +29,9 @@ import 'package:sqflite/sqflite.dart' show Database;
 
 import 'package:dbutils/sqllitedb.dart' show DBInterface;
 
-import '../model.dart' show Contact;
+import '../../model.dart' show Contact;
+
+import '../../view.dart' show Item;
 
 class ContactsService extends DBInterface {
   factory ContactsService() {
@@ -51,9 +53,7 @@ class ContactsService extends DBInterface {
   @override
   get version => 1;
 
-  static initState() {
-    ContactsService().init();
-  }
+  static Future<bool> initState() => ContactsService().init();
 
   static void dispose() {
     ContactsService().disposed();
@@ -117,13 +117,26 @@ class ContactsService extends DBInterface {
         await _this.rawQuery('SELECT * FROM Contacts WHERE deleted = 0'));
   }
 
-  static List<Contact> listContacts(List<Map<String, dynamic>> query) {
+  static Future<List<Contact>> listContacts(
+      List<Map<String, dynamic>> query) async {
     List<Contact> contactList = [];
-    for (var contact in query) {
+    for (Map contact in query) {
       Map<String, dynamic> map = contact.map((key, value) {
         return MapEntry(key, value is int ? value?.toString() : value);
       });
-      contactList.add(Contact.fromMap(map));
+      Contact aContact = Contact.fromMap(map);
+      List<Map<String, dynamic>> phones = await _this.rawQuery(
+          'SELECT * FROM Phones WHERE userid = ${contact['id']} AND deleted = 0');
+      aContact.phones =
+          phones.map((m) => Item.fromMap(m, 'label', 'phone')).toList();
+      List<Map<String, dynamic>> emails = await _this.rawQuery(
+          'SELECT * FROM Emails WHERE userid = ${contact['id']} AND deleted = 0');
+      aContact.emails =
+          emails.map((m) => Item.fromMap(m, 'label', 'email')).toList();
+      List<Map<String, dynamic>> addresses = await _this.rawQuery(
+          'SELECT * FROM Addresses WHERE userid = ${contact['id']} AND deleted = 0');
+//      aContact.postalAddresses = addresses.map((m) => Item.fromMap(m));
+      contactList.add(aContact);
     }
     return contactList;
   }
@@ -131,12 +144,28 @@ class ContactsService extends DBInterface {
   static Future<bool> addContact(Map contact) async {
 //   return _this.runTxn(() async {
     bool add = await _this.saveMap('Contacts', contact);
-//       await _this.saveMap('emails', contact['emails']);
-//       await _this.saveMap('phones', contact['phones']);
+    if (add) {
+      Map map = Map();
+      map.addAll({'userid': contact['id']});
+      for (Map phone in contact['phones']) {
+        map.addAll(phone);
+      }
+      if (map.length > 1) add = await _this.saveMap('Phones', map);
+    }
+    if (add) {
+      Map map = Map();
+      map.addAll({'userid': contact['id']});
+      for (Map email in contact['emails']) {
+        map.addAll(email);
+      }
+      if (map.length > 1) add = await _this.saveMap('Emails', map);
+    }
 //       await _this.saveMap('addresses', contact['postalAddresses']);
     return add;
 //   });
   }
+
+  static func(key, value) {}
 
   static Future<int> deleteContact(Map contact) async {
     var id = contact['id'];

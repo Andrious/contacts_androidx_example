@@ -21,16 +21,6 @@
 ///
 ///
 
-export 'package:mvc_application/view.dart';
+export 'package:mvc_application/controller.dart' show ControllerMVC;
 
-export 'view/ContractsExampleApp.dart';
-
-export 'view/ContactListPage.dart';
-
-export 'view/ContactDetailsPage.dart';
-
-export 'view/AddContactPage.dart';
-
-export 'view/AddressesTile.dart';
-
-
+export 'src/controller/Controller.dart';

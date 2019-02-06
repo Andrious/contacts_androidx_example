@@ -21,13 +21,19 @@
 ///
 ///
 
-import 'package:flutter/material.dart' show FlutterError, FlutterErrorDetails;
+import 'package:flutter/material.dart'
+    show FlutterError,
+    FlutterErrorDetails;
 
 /// The Controller talks to the Model
-import '../model.dart'
-    show Contact, ContactsService, ContactAdd, ContactEdit, ContactList;
+import 'package:contacts_service_example/model.dart'
+    show Contact,
+    ContactsService,
+    ContactAdd,
+    ContactEdit,
+    ContactList;
 
-import '../controller.dart' show ControllerMVC;
+import 'package:contacts_service_example/controller.dart' show ControllerMVC;
 
 class Controller extends ControllerMVC {
   factory Controller() {
@@ -71,3 +77,6 @@ class Controller extends ControllerMVC {
   ContactList get list => _listContacts;
   static ContactList _listContacts = ContactList();
 }
+
+
+

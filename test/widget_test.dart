@@ -5,10 +5,12 @@
 // are correct.
 
 import 'package:flutter/services.dart';
+
 import 'package:flutter_test/flutter_test.dart';
 
-import '../lib/src/controller.dart';
-import '../lib/src/model/ContactsService.dart';
+import 'package:mvc_application/view.dart' show Item;
+
+import '../lib/model.dart' show Contact, ContactsService, PostalAddress;
 
 void main() {
   const MethodChannel channel =

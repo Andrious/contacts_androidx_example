@@ -23,9 +23,9 @@
 
 import 'package:flutter/material.dart';
 
-import '../model.dart' show PostalAddress;
+import '../../model.dart' show PostalAddress;
 
-import '../view.dart' show Field, Item;
+import '../../view.dart' show Field, Item;
 
 class Contact<E> {
   Contact();
@@ -40,10 +40,10 @@ class Contact<E> {
     suffix = m["suffix"];
     company = m["company"];
     jobTitle = m["jobTitle"];
-    emails = (m["emails"] as Iterable)?.map((m) => Item.fromMap(m));
-    phones = (m["phones"] as Iterable)?.map((m) => Item.fromMap(m));
-    postalAddresses = (m["postalAddresses"] as Iterable)
-        ?.map((m) => PostalAddress.fromMap(m));
+//    emails = (m["emails"] as Iterable)?.map((m) => Item.fromMap(m));
+//    phones = (m["phones"] as Iterable)?.map((m) => Item.fromMap(m));
+//    postalAddresses = (m["postalAddresses"] as Iterable)
+//        ?.map((m) => PostalAddress.fromMap(m));
   }
 
   String _id,
@@ -74,19 +74,25 @@ class Contact<E> {
     if (emails == null) {
       emails = [];
       if (_email != null && _email.isNotEmpty) {
-        emails.add(Item(label: "home", value: _email));
+        Item item = Item(label: "home", value: _email);
+        item.keys('label','email');
+        emails.add(item);
       }
     }
     for (Item email in emails ?? []) {
+      email.keys('label','email');
       emailList.add(email.toMap);
     }
     if (phones == null) {
       if (_phone != null && _phone.isNotEmpty) {
         phones = [];
-        phones.add(Item(label: "home", value: _phone));
+        Item item = Item(label: "home", value: _phone);
+        item.keys('label','phone');
+        phones.add(item);
       }
     }
     for (Item phone in phones ?? []) {
+      phone.keys('label','phone');
       phoneList.add(phone.toMap);
     }
     var addressList = [];
@@ -296,11 +302,16 @@ class JobTitle extends Field {
 
 class Phone extends Field {
   Phone([Contact contact])
-      : super(object: contact, label: 'Phone', value: contact?.phones);
+      : super(object: contact, label: 'Phone', value: contact?.phones) {
+    // Change the name of the map's key fields.
+    keys('label', 'phone');
+  }
 
   Phone.single([Contact contact])
-      : super(object: contact, label: 'Phone', value: contact?.phone);
-
+      : super(object: contact, label: 'Phone', value: contact?.phone) {
+    // Change the name of the map's key fields.
+    keys('label', 'phone');
+  }
   void onSaved(v) {
     if (v == null) return;
     if (v is List<Item>) {

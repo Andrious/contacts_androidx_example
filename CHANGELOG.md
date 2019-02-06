@@ -5,6 +5,7 @@
 ## [1.2.0] - 2019-01-28: incorporate mvc_application 0.5.0
 ## [1.3.0] - 2019-01-28: incorporate mvc_application 0.6.0
 ## [1.4.0] - 2019-02-03: introduced ContactDetailsPage.dart
+## [1.5.0] - 2019-02-06: uxutils.git, launch_background.xml, 'SELECT * FROM Phones WHERE userid = ${contact['id']} AND deleted = 0'
 
 
 

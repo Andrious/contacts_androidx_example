@@ -21,13 +21,10 @@
 ///
 ///
 
-export 'model/Contact.dart';
+export 'src/model/Contact.dart';
 
-export 'model/Contacts.dart';
+export 'src/model/Contacts.dart';
 
-export 'model/ContactsService.dart';
+export 'src/model/ContactsService.dart';
 
-export 'model/PostalAddress.dart';
-
-
-
+export 'src/model/PostalAddress.dart';

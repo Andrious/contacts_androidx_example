@@ -22,17 +22,13 @@
 ///
 
 import 'package:flutter/material.dart'
-    show
-        BuildContext,
-        FormState,
-        GlobalKey,
-        ScaffoldState;
+    show BuildContext, FormState, GlobalKey, ScaffoldState;
 
-import '../controller.dart' show Controller;
+import '../../controller.dart' show Controller;
 
-import '../view.dart' show Field;
+import '../../view.dart' show Field;
 
-import '../model.dart'
+import '../../model.dart'
     show
         City,
         Company,
@@ -210,3 +206,6 @@ class ContactFields {
   Country get country => _country;
   set country(Country country) => _country = country;
 }
+
+
+

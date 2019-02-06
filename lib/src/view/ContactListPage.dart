@@ -52,11 +52,11 @@ import 'package:flutter/material.dart'
         ThemeData,
         Widget;
 
-import '../model.dart' show Contact;
+import '../../model.dart';
 
-import '../view.dart' show ContactDetailsPage, StateMVC;
+import '../../view.dart';
 
-import '../controller.dart' show Controller;
+import '../../controller.dart';
 
 class ContactListPage extends StatefulWidget {
   ContactListPage({Key key}) : super(key: key);
@@ -65,9 +65,11 @@ class ContactListPage extends StatefulWidget {
 }
 
 class _ContactListState extends StateMVC<ContactListPage> {
-  _ContactListState() : super(con);
-  static final Controller con = Controller();
-  
+  _ContactListState() : super(Controller()) {
+    con = controller;
+  }
+  Controller con;
+
   @override
   Widget build(BuildContext context) {
     ThemeData _theme = App.theme;
@@ -112,16 +114,15 @@ class _ContactListState extends StateMVC<ContactListPage> {
                           (direction == DismissDirection.endToStart)
                               ? 'deleted'
                               : 'archived';
-                      con.list.scaffoldKey.currentState
-                          ?.showSnackBar(SnackBar(
-                              duration: Duration(milliseconds: 8000),
-                              content: Text('You $action an item.'),
-                              action: SnackBarAction(
-                                  label: 'UNDO',
-                                  onPressed: () {
-                                    Controller.edit.undelete(c);
-                                    con.list.refresh();
-                                  })));
+                      con.list.scaffoldKey.currentState?.showSnackBar(SnackBar(
+                          duration: Duration(milliseconds: 8000),
+                          content: Text('You $action an item.'),
+                          action: SnackBarAction(
+                              label: 'UNDO',
+                              onPressed: () {
+                                Controller.edit.undelete(c);
+                                con.list.refresh();
+                              })));
                     },
                   );
                 },

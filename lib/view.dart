@@ -21,10 +21,14 @@
 ///
 ///
 
-export 'package:mvc_application/controller.dart' show ControllerMVC;
+export 'package:mvc_application/view.dart';
 
-export 'package:mvc_application/mvc.dart' show ConMVC;
+export 'src/view/ContractsExampleApp.dart';
 
-export 'controller/Contacts.dart';
+export 'src/view/ContactListPage.dart';
 
+export 'src/view/ContactDetailsPage.dart';
 
+export 'src/view/AddContactPage.dart';
+
+export 'src/view/AddressesTile.dart';

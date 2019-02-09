@@ -25,7 +25,7 @@ import 'package:flutter/material.dart';
 
 import '../../model.dart' show PostalAddress;
 
-import '../../view.dart' show Field, Item;
+import '../../view.dart' show FieldWidgets, Item;
 
 class Contact<E> {
   Contact();
@@ -83,7 +83,7 @@ class Contact<E> {
       email.keys('label','email');
       emailList.add(email.toMap);
     }
-    if (phones == null) {
+    if (phones == null || phones.length == 0) {
       if (_phone != null && _phone.isNotEmpty) {
         phones = [];
         Item item = Item(label: "home", value: _phone);
@@ -224,14 +224,14 @@ class Contact<E> {
   }
 }
 
-class Id extends Field {
+class Id extends FieldWidgets<Contact> {
   Id([Contact contact])
       : super(object: contact, label: 'Identifier', value: contact?.id);
 
   void onSaved(v) => object?.id = value = v;
 }
 
-class DisplayName extends Field {
+class DisplayName extends FieldWidgets<Contact> {
   DisplayName([Contact contact])
       : super(
           object: contact,
@@ -246,14 +246,14 @@ class DisplayName extends Field {
       CircleAvatar(child: Text(value.length > 1 ? value?.substring(0, 2) : ""));
 }
 
-class GivenName extends Field {
+class GivenName extends FieldWidgets<Contact> {
   GivenName([Contact contact])
       : super(object: contact, label: 'First Name', value: contact?.givenName);
 
   void onSaved(v) => object?.givenName = value = v;
 }
 
-class MiddleName extends Field {
+class MiddleName extends FieldWidgets<Contact> {
   MiddleName([Contact contact])
       : super(
             object: contact, label: 'Middle Name', value: contact?.middleName);
@@ -261,7 +261,7 @@ class MiddleName extends Field {
   void onSaved(v) => object?.middleName = value = v;
 }
 
-class FamilyName extends Field {
+class FamilyName extends FieldWidgets<Contact> {
   FamilyName([Contact contact])
       : super(
           object: contact,
@@ -272,35 +272,35 @@ class FamilyName extends Field {
   void onSaved(v) => object?.familyName = value = v;
 }
 
-class Prefix extends Field {
+class Prefix extends FieldWidgets<Contact> {
   Prefix([Contact contact])
       : super(object: contact, label: 'Prefix', value: contact?.prefix);
 
   void onSaved(v) => object?.prefix = value = v;
 }
 
-class Suffix extends Field {
+class Suffix extends FieldWidgets<Contact> {
   Suffix([Contact contact])
       : super(object: contact, label: 'Suffix', value: contact?.suffix);
 
   void onSaved(v) => object?.suffix = value = v;
 }
 
-class Company extends Field {
+class Company extends FieldWidgets<Contact> {
   Company([Contact contact])
       : super(object: contact, label: 'Company', value: contact?.company);
 
   void onSaved(v) => object?.company = value = v;
 }
 
-class JobTitle extends Field {
+class JobTitle extends FieldWidgets<Contact> {
   JobTitle([Contact contact])
       : super(object: contact, label: 'Job', value: contact?.jobTitle);
 
   void onSaved(v) => object?.jobTitle = value = v;
 }
 
-class Phone extends Field {
+class Phone extends FieldWidgets<Contact> {
   Phone([Contact contact])
       : super(object: contact, label: 'Phone', value: contact?.phones) {
     // Change the name of the map's key fields.
@@ -315,7 +315,7 @@ class Phone extends Field {
   void onSaved(v) {
     if (v == null) return;
     if (v is List<Item>) {
-      object?.phones = v;
+      object?.phones = (v as List<Item>);
       return;
     }
     if (v is String) {
@@ -331,7 +331,7 @@ class Phone extends Field {
       keyboardType: TextInputType.phone);
 }
 
-class Email extends Field {
+class Email extends FieldWidgets<Contact> {
   Email([Contact contact])
       : super(object: contact, label: 'E-mail', value: contact?.emails);
 
@@ -341,7 +341,7 @@ class Email extends Field {
   void onSaved(v) {
     if (v == null) return;
     if (v is List<Item>) {
-      object?.emails = v;
+      object?.emails = (v as List<Item>);
       return;
     }
     if (v is String) {
@@ -357,35 +357,35 @@ class Email extends Field {
       keyboardType: TextInputType.emailAddress);
 }
 
-class Street extends Field {
+class Street extends FieldWidgets<Contact> {
   Street([Contact contact])
       : super(object: contact, label: 'Street', value: contact?.company);
 
   void onSaved(v) => object?.street = value = v;
 }
 
-class City extends Field {
+class City extends FieldWidgets<Contact> {
   City([Contact contact])
       : super(object: contact, label: 'City', value: contact?.company);
 
   void onSaved(v) => object?.city = value = v;
 }
 
-class Region extends Field {
+class Region extends FieldWidgets<Contact> {
   Region([Contact contact])
       : super(object: contact, label: 'Region', value: contact?.company);
 
   void onSaved(v) => object?.region = value = v;
 }
 
-class Postcode extends Field {
+class Postcode extends FieldWidgets<Contact> {
   Postcode([Contact contact])
       : super(object: contact, label: 'Postal code', value: contact?.company);
 
   void onSaved(v) => object?.postcode = value = v;
 }
 
-class Country extends Field {
+class Country extends FieldWidgets<Contact> {
   Country([Contact contact])
       : super(object: contact, label: 'Country', value: contact?.company);
 

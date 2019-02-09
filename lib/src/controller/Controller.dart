@@ -21,17 +21,11 @@
 ///
 ///
 
-import 'package:flutter/material.dart'
-    show FlutterError,
-    FlutterErrorDetails;
+import 'package:flutter/material.dart';
 
 /// The Controller talks to the Model
 import 'package:contacts_service_example/model.dart'
-    show Contact,
-    ContactsService,
-    ContactAdd,
-    ContactEdit,
-    ContactList;
+    show Contact, ContactsService, ContactAdd, ContactEdit, ContactList;
 
 import 'package:contacts_service_example/controller.dart' show ControllerMVC;
 
@@ -64,7 +58,7 @@ class Controller extends ControllerMVC {
   void onError(FlutterErrorDetails details) =>
       FlutterError.dumpErrorToConsole(details);
 
-  static void rebuild() => _this.refresh();
+  static void rebuild() => _this?.refresh();
 
   static Future<List<Contact>> getContacts() => ContactsService.getContacts();
 
@@ -76,7 +70,15 @@ class Controller extends ControllerMVC {
 
   ContactList get list => _listContacts;
   static ContactList _listContacts = ContactList();
+
+  Contact child(int index) {
+    Contact contact = list.items?.elementAt(index);
+    list.init(contact);
+    return contact;
+  }
+
+  static void delete(Object contact) {
+    if (contact is! Contact) return;
+    edit.delete(contact as Contact);
+  }
 }
-
-
-

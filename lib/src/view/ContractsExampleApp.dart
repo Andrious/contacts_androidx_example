@@ -25,7 +25,7 @@ import 'package:flutter/material.dart' show BuildContext;
 
 import 'package:mvc_application/mvc.dart' show ViewMVC;
 
-import '../../view.dart' show AddContactPage, ContactListPage;
+import 'package:contacts_service_example/view.dart' show AddContactPage, ContactListPage;
 
 class ContactsExampleApp extends ViewMVC {
   ContactsExampleApp()

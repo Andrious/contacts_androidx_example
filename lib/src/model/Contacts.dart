@@ -24,11 +24,11 @@
 import 'package:flutter/material.dart'
     show BuildContext, FormState, GlobalKey, ScaffoldState;
 
-import '../../controller.dart' show Controller;
+import 'package:contacts_service_example/controller.dart' show Controller;
 
-import '../../view.dart' show Field;
+import 'package:contacts_service_example/view.dart' show FieldWidgets;
 
-import '../../model.dart'
+import 'package:contacts_service_example/model.dart'
     show
         City,
         Company,
@@ -52,7 +52,7 @@ import '../../model.dart'
 
 class ContactAdd extends ContactEdit {
   @override
-  void init([Contact contact]) {
+  void init([Object contact]) {
     super.init(contact);
     phone = Phone.single(phone.object);
     email = Email.single(email.object);
@@ -87,14 +87,14 @@ class ContactEdit extends ContactList {
     return ContactsService.addContact(contact.toMap);
   }
 
-  Future delete([Contact contact]) {
+  Future<int> delete([Contact contact]) {
     if (contact == null) {
       contact = _contact;
     }
     return ContactsService.deleteContact(contact.toMap);
   }
 
-  Future undelete([Contact contact]) {
+  Future<int> undelete([Contact contact]) {
     if (contact == null) {
       contact = _contact;
     }
@@ -115,11 +115,12 @@ class ContactList extends ContactFields {
     return _contacts;
   }
 
-  void init([Contact contact]) {
+  void init([Object contact]) {
     if (contact == null) {
       _contact = Contact();
     } else {
-      _contact = contact;
+      if(contact is! Contact) return;
+      _contact = (contact as Contact);
     }
     _id = Id(_contact);
     _displayName = DisplayName(_contact);
@@ -141,7 +142,7 @@ class ContactList extends ContactFields {
 }
 
 class ContactFields {
-  Field _id,
+  FieldWidgets<Contact> _id,
       _displayName,
       _givenName,
       _middleName,
@@ -206,6 +207,3 @@ class ContactFields {
   Country get country => _country;
   set country(Country country) => _country = country;
 }
-
-
-

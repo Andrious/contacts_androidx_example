@@ -26,17 +26,17 @@ import 'package:flutter/material.dart';
 import 'package:uxutils/view.dart'
     show EditBarButton, HomeBarButton, SearchBarButton, SimpleBottomAppBar;
 
-import '../../model.dart' show Contact;
+import 'package:contacts_service_example/model.dart' show Contact;
 
-import '../../view.dart' show AddContactPage;
+import 'package:contacts_service_example/view.dart' show AddContactPage;
 
-import '../../controller.dart' show Controller;
+import 'package:contacts_service_example/controller.dart' show Controller;
 
 class ContactDetailsPage extends StatelessWidget {
   ContactDetailsPage({this.contact, Key key}) : super(key: key) {
     Controller.edit.init(contact);
   }
-  final Contact contact;
+  final Object contact;
 
   @override
   Widget build(BuildContext context) {
@@ -45,7 +45,7 @@ class ContactDetailsPage extends StatelessWidget {
           FlatButton(
               child: Icon(Icons.delete, color: Colors.white),
               onPressed: () {
-                Controller.edit.delete(contact);
+                Controller.delete(contact);
                 Controller.rebuild();
                 Navigator.of(context).pop();
               }),

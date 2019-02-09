@@ -52,11 +52,11 @@ import 'package:flutter/material.dart'
         ThemeData,
         Widget;
 
-import '../../model.dart';
+import 'package:contacts_service_example/model.dart';
 
-import '../../view.dart';
+import 'package:contacts_service_example/view.dart';
 
-import '../../controller.dart';
+import 'package:contacts_service_example/controller.dart';
 
 class ContactListPage extends StatefulWidget {
   ContactListPage({Key key}) : super(key: key);
@@ -89,8 +89,7 @@ class _ContactListState extends StateMVC<ContactListPage> {
             : ListView.builder(
                 itemCount: con.list.items?.length ?? 0,
                 itemBuilder: (BuildContext context, int index) {
-                  Contact c = con.list.items?.elementAt(index);
-                  con.list.init(c);
+                  Object c = con.child(index);
                   return con.list.displayName.onDismissible(
                     child: Container(
                       decoration: BoxDecoration(
@@ -108,7 +107,7 @@ class _ContactListState extends StateMVC<ContactListPage> {
                       ),
                     ),
                     dismissed: (DismissDirection direction) {
-                      Controller.edit.delete(c);
+                      Controller.delete(c);
                       con.list.refresh();
                       final String action =
                           (direction == DismissDirection.endToStart)

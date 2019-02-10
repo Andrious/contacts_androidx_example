@@ -33,4 +33,13 @@ class ContactsExampleApp extends ViewMVC {
             title: 'Contacts Plugin Example',
             routes: {'/add': (BuildContext context) => AddContactPage()},
             home: ContactListPage());
+
+  Future<bool> init() async {
+    bool init = await super.init();
+    if(init){
+
+    }
+    return init;
+  }
+
 }

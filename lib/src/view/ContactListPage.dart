@@ -23,34 +23,9 @@
 
 import 'package:mvc_application/app.dart' show App;
 
-import 'package:flutter/material.dart'
-    show
-        AppBar,
-        Border,
-        BorderSide,
-        BoxDecoration,
-        BuildContext,
-        Center,
-        CircularProgressIndicator,
-        Container,
-        DismissDirection,
-        FloatingActionButton,
-        Icon,
-        Icons,
-        Key,
-        ListTile,
-        ListView,
-        MaterialPageRoute,
-        Navigator,
-        SafeArea,
-        Scaffold,
-        SnackBar,
-        SnackBarAction,
-        State,
-        StatefulWidget,
-        Text,
-        ThemeData,
-        Widget;
+import 'package:mvc_application/view.dart';
+
+import 'package:flutter/material.dart';
 
 import 'package:contacts_service_example/model.dart';
 
@@ -73,59 +48,71 @@ class _ContactListState extends StateMVC<ContactListPage> {
   @override
   Widget build(BuildContext context) {
     ThemeData _theme = App.theme;
-    return Scaffold(
-      key: con.list.scaffoldKey,
-      appBar: AppBar(title: Text('Contacts Plugin Example')),
-      floatingActionButton: FloatingActionButton(
-          child: Icon(Icons.add),
-          onPressed: () {
-            Navigator.of(context).pushNamed("/add").then((_) {
-              con.list.refresh();
-            });
-          }),
-      body: SafeArea(
-        child: con.list.items == null
-            ? Center(child: CircularProgressIndicator())
-            : ListView.builder(
-                itemCount: con.list.items?.length ?? 0,
-                itemBuilder: (BuildContext context, int index) {
-                  Object c = con.child(index);
-                  return con.list.displayName.onDismissible(
-                    child: Container(
-                      decoration: BoxDecoration(
-                          color: _theme.canvasColor,
-                          border: Border(
-                              bottom: BorderSide(color: _theme.dividerColor))),
-                      child: ListTile(
-                        onTap: () {
-                          Navigator.of(context).push(MaterialPageRoute(
-                              builder: (BuildContext context) =>
-                                  ContactDetailsPage(contact: c)));
-                        },
-                        leading: con.list.displayName.circleAvatar,
-                        title: con.list.displayName.text,
+    return Theme(
+      data: ThemeData(
+        brightness: Brightness.light,
+        primarySwatch: App.colorTheme, //Colors.indigo,
+        platform: Theme.of(context).platform,
+      ),
+      child: Scaffold(
+        key: con.list.scaffoldKey,
+        appBar:
+            AppBar(title: Text('Contacts Plugin Example'), actions: <Widget>[
+          AppMenu.show(this),
+        ]),
+        floatingActionButton: FloatingActionButton(
+            child: Icon(Icons.add),
+            onPressed: () {
+              Navigator.of(context).pushNamed("/add").then((_) {
+                con.list.refresh();
+              });
+            }),
+        body: SafeArea(
+          child: con.list.items == null
+              ? Center(child: CircularProgressIndicator())
+              : ListView.builder(
+                  itemCount: con.list.items?.length ?? 0,
+                  itemBuilder: (BuildContext context, int index) {
+                    Object c = con.child(index);
+                    return con.list.displayName.onDismissible(
+                      child: Container(
+                        decoration: BoxDecoration(
+                            color: _theme.canvasColor,
+                            border: Border(
+                                bottom:
+                                    BorderSide(color: _theme.dividerColor))),
+                        child: ListTile(
+                          onTap: () {
+                            Navigator.of(context).push(MaterialPageRoute(
+                                builder: (BuildContext context) =>
+                                    ContactDetailsPage(contact: c)));
+                          },
+                          leading: con.list.displayName.circleAvatar,
+                          title: con.list.displayName.text,
+                        ),
                       ),
-                    ),
-                    dismissed: (DismissDirection direction) {
-                      Controller.delete(c);
-                      con.list.refresh();
-                      final String action =
-                          (direction == DismissDirection.endToStart)
-                              ? 'deleted'
-                              : 'archived';
-                      con.list.scaffoldKey.currentState?.showSnackBar(SnackBar(
-                          duration: Duration(milliseconds: 8000),
-                          content: Text('You $action an item.'),
-                          action: SnackBarAction(
-                              label: 'UNDO',
-                              onPressed: () {
-                                Controller.edit.undelete(c);
-                                con.list.refresh();
-                              })));
-                    },
-                  );
-                },
-              ),
+                      dismissed: (DismissDirection direction) {
+                        Controller.delete(c);
+                        con.list.refresh();
+                        final String action =
+                            (direction == DismissDirection.endToStart)
+                                ? 'deleted'
+                                : 'archived';
+                        con.list.scaffoldKey.currentState
+                            ?.showSnackBar(SnackBar(
+                                duration: Duration(milliseconds: 8000),
+                                content: Text('You $action an item.'),
+                                action: SnackBarAction(
+                                    label: 'UNDO',
+                                    onPressed: () {
+                                      Controller.edit.undelete(c);
+                                      con.list.refresh();
+                                    })));
+                      },
+                    );
+                  },
+                ),
+        ),
       ),
     );
   }

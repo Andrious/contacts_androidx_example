@@ -23,6 +23,8 @@
 
 import 'package:flutter/material.dart';
 
+import 'package:mvc_application/app.dart' show App;
+
 import 'package:uxutils/view.dart'
     show EditBarButton, HomeBarButton, SearchBarButton, SimpleBottomAppBar;
 
@@ -32,64 +34,78 @@ import 'package:contacts_service_example/view.dart' show AddContactPage;
 
 import 'package:contacts_service_example/controller.dart' show Controller;
 
+enum AppBarBehavior { normal, pinned, floating, snapping }
+
 class ContactDetailsPage extends StatelessWidget {
   ContactDetailsPage({this.contact, Key key}) : super(key: key) {
     Controller.edit.init(contact);
   }
   final Object contact;
 
+  final double _appBarHeight = 256.0;
+
+  final AppBarBehavior _appBarBehavior = AppBarBehavior.pinned;
+
   @override
   Widget build(BuildContext context) {
-    return Scaffold(
-        appBar: AppBar(title: Controller.edit.displayName.text, actions: [
-          FlatButton(
-              child: Icon(Icons.delete, color: Colors.white),
-              onPressed: () {
-                Controller.delete(contact);
-                Controller.rebuild();
+    return Theme(
+        data: ThemeData(
+          brightness: Brightness.light,
+          primarySwatch: App.colorTheme, //Colors.indigo,
+          platform: Theme.of(context).platform,
+        ),
+        child: Scaffold(
+            appBar: AppBar(title: Controller.edit.displayName.text, actions: [
+              FlatButton(
+                  child: Icon(Icons.delete, color: Colors.white),
+                  onPressed: () {
+                    Controller.delete(contact);
+                    Controller.rebuild();
+                    Navigator.of(context).pop();
+                  }),
+            ]),
+            bottomNavigationBar: SimpleBottomAppBar(
+              button01: HomeBarButton(onPressed: () {
                 Navigator.of(context).pop();
               }),
-        ]),
-        bottomNavigationBar: SimpleBottomAppBar(
-          button01: HomeBarButton(onPressed: () {
-            Navigator.of(context).pop();
-          }),
-          button02: SearchBarButton(),
-          button03: EditBarButton(onPressed: () {
-            Navigator.of(context).push(MaterialPageRoute(
-                builder: (BuildContext context) =>
-                    AddContactPage(contact: contact, title: 'Edit a contact')));
-          }),
-        ),
-        body: SafeArea(
-          child: ListView(
-            children: [
-              Controller.edit.givenName.onListTile(tap: () {
-                editContact(contact, context);
+              button02: SearchBarButton(),
+              button03: EditBarButton(onPressed: () {
+                Navigator.of(context).push(MaterialPageRoute(
+                    builder: (BuildContext context) => AddContactPage(
+                        contact: contact, title: 'Edit a contact')));
               }),
-              Controller.edit.middleName.onListTile(tap: () {
-                editContact(contact, context);
-              }),
-              Controller.edit.familyName.onListTile(tap: () {
-                editContact(contact, context);
-              }),
-              Controller.edit.prefix.onListTile(tap: () {
-                editContact(contact, context);
-              }),
-              Controller.edit.suffix.onListTile(tap: () {
-                editContact(contact, context);
-              }),
-              Controller.edit.company.onListTile(tap: () {
-                editContact(contact, context);
-              }),
-              Controller.edit.jobTitle.onListTile(tap: () {
-                editContact(contact, context);
-              }),
-              Controller.edit.phone.listItems,
-              Controller.edit.email.listItems,
-            ],
-          ),
-        ));
+            ),
+            body: CustomScrollView(slivers: <Widget>[
+              SliverList(
+                delegate: SliverChildListDelegate(<Widget>[
+                  Controller.edit.givenName.onListTile(tap: () {
+                    editContact(contact, context);
+                  }),
+                  Controller.edit.middleName.onListTile(tap: () {
+                    editContact(contact, context);
+                  }),
+                  Controller.edit.familyName.onListTile(tap: () {
+                    editContact(contact, context);
+                  }),
+                  Controller.edit.prefix.onListTile(tap: () {
+                    editContact(contact, context);
+                  }),
+                  Controller.edit.suffix.onListTile(tap: () {
+                    editContact(contact, context);
+                  }),
+                  Controller.edit.company.onListTile(tap: () {
+                    editContact(contact, context);
+                  }),
+                  Controller.edit.jobTitle.onListTile(tap: () {
+                    editContact(contact, context);
+                  }),
+                  Controller.edit.phone.listItems,
+                  Controller.edit.email.listItems,
+                ]),
+              )
+            ])
+        )
+    );
   }
 
   editContact(Contact contact, BuildContext context) {

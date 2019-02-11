@@ -1,7 +1,7 @@
 name: contacts_service_example
 description: Demonstrates the MVC design pattern implementation.
 
-version: 1.6.0
+version: 1.7.1
 
 environment:
   sdk: ">=2.0.0-dev.68.0 <3.0.0"
@@ -11,9 +11,9 @@ dependencies:
     sdk: flutter
 
   mvc_application:
-#    path: ../../packages/mvc_application
-    git:
-      url: git://github.com/AndriousSolutions/mvc_application.git
+    path: ../../packages/mvc_application
+#    git:
+#      url: git://github.com/AndriousSolutions/mvc_application.git
 
   dbutils:
 #    path: ../../libs/dbutils

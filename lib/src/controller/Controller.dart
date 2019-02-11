@@ -23,6 +23,8 @@
 
 import 'package:flutter/material.dart';
 
+import 'package:mvc_application/app.dart' show Prefs;
+
 /// The Controller talks to the Model
 import 'package:contacts_service_example/model.dart'
     show Contact, ContactsService, ContactAdd, ContactEdit, ContactList;
@@ -35,12 +37,15 @@ class Controller extends ControllerMVC {
     return _this;
   }
   static Controller _this;
+  static bool _sortedAlpha;
+  static const String _SORT_KEY = 'sort_by_alpha';
 
   Controller._() : super();
 
   @override
   void initState() {
     init();
+    _sortedAlpha = Prefs.getBool(_SORT_KEY, false);
     list.refresh();
   }
 
@@ -60,7 +65,18 @@ class Controller extends ControllerMVC {
 
   static void rebuild() => _this?.refresh();
 
-  static Future<List<Contact>> getContacts() => ContactsService.getContacts();
+  static Future<List<Contact>> getContacts() async {
+    List<Contact> contacts = await ContactsService.getContacts();
+    if (_sortedAlpha) contacts.sort();
+    return contacts;
+  }
+
+  static Future<List<Contact>> sort() async {
+    _sortedAlpha = !_sortedAlpha;
+    Prefs.setBool(_SORT_KEY, _sortedAlpha);
+    List<Contact> contacts = await getContacts();
+    return contacts;
+  }
 
   static ContactAdd get add => _addContacts;
   static ContactAdd _addContacts = ContactAdd();
@@ -68,7 +84,7 @@ class Controller extends ControllerMVC {
   static ContactEdit get edit => _editContacts;
   static ContactEdit _editContacts = ContactEdit();
 
-  ContactList get list => _listContacts;
+  static ContactList get list => _listContacts;
   static ContactList _listContacts = ContactList();
 
   Contact child(int index) {
@@ -77,8 +93,9 @@ class Controller extends ControllerMVC {
     return contact;
   }
 
-  static void delete(Object contact) {
-    if (contact is! Contact) return;
-    edit.delete(contact as Contact);
+  static Future<bool> delete(Object contact) async {
+    if (contact is! Contact) return Future.value(false);
+    bool delete = await edit.delete(contact as Contact);
+    return delete;
   }
 }

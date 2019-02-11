@@ -8,7 +8,7 @@
 ## [1.5.0] - 2019-02-06: uxutils.git, launch_background.xml, 'SELECT * FROM Phones WHERE userid = ${contact['id']} AND deleted = 0'
 ## [1.5.1] - 2019-02-08: final Object contact;  if (phones == null || phones.length == 0) { FieldWidgets<Contact> { object?.emails = (v as List<Item>);
 ## [1.6.0] - 2019-02-09: App Color Theme Picker
-
+## [1.7.1] - 2019-02-10: Sort Contacts; Corrected deleting
 
 
 

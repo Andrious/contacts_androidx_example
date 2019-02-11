@@ -59,9 +59,11 @@ class ContactDetailsPage extends StatelessWidget {
               FlatButton(
                   child: Icon(Icons.delete, color: Colors.white),
                   onPressed: () {
-                    Controller.delete(contact);
-                    Controller.rebuild();
-                    Navigator.of(context).pop();
+                    Controller.delete(contact).then((bool delete) {
+                      if(delete)
+                        Controller.list.refresh();
+                      Navigator.of(context).pop();
+                    });
                   }),
             ]),
             bottomNavigationBar: SimpleBottomAppBar(

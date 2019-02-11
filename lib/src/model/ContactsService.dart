@@ -167,13 +167,19 @@ class ContactsService extends DBInterface {
 
   static func(key, value) {}
 
-  static Future<int> deleteContact(Map contact) async {
+  static Future<bool> deleteContact(Map contact) async {
     var id = contact['id'];
-    if (id == null) return Future.value(0);
-    if (id is String) id = int.parse(id);
-    List<Map<String, dynamic>> query =
-        await _this.rawQuery('UPDATE Contacts SET deleted = 1 WHERE id = $id');
-    return query.length;
+    if (id == null) return Future.value(false);
+//    if (id is String) id = int.parse(id);
+//    List<Map<String, dynamic>> query =
+//        await _this.rawQuery('UPDATE Contacts SET deleted = 1 WHERE id = $id');
+//    return query.length;
+    Map rec = _this.newRec('Contacts', contact);
+    _this.addEntries('Contacts', rec);
+    rec['deleted'] = 1;
+    bool save = await _this.saveMap('Contacts', rec);
+    return save;
+
 //    return _this.delete('Contacts', id);
   }
 

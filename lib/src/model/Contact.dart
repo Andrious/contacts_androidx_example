@@ -27,7 +27,7 @@ import '../../model.dart' show PostalAddress;
 
 import '../../view.dart' show FieldWidgets, Item;
 
-class Contact<E> {
+class Contact<E> implements Comparable<Contact> {
   Contact();
 
   Contact.fromMap(Map m) {
@@ -75,24 +75,24 @@ class Contact<E> {
       emails = [];
       if (_email != null && _email.isNotEmpty) {
         Item item = Item(label: "home", value: _email);
-        item.keys('label','email');
+        item.keys('label', 'email');
         emails.add(item);
       }
     }
     for (Item email in emails ?? []) {
-      email.keys('label','email');
+      email.keys('label', 'email');
       emailList.add(email.toMap);
     }
     if (phones == null || phones.length == 0) {
       if (_phone != null && _phone.isNotEmpty) {
         phones = [];
         Item item = Item(label: "home", value: _phone);
-        item.keys('label','phone');
+        item.keys('label', 'phone');
         phones.add(item);
       }
     }
     for (Item phone in phones ?? []) {
-      phone.keys('label','phone');
+      phone.keys('label', 'phone');
       phoneList.add(phone.toMap);
     }
     var addressList = [];
@@ -222,6 +222,8 @@ class Contact<E> {
     if (v == null) v = "";
     _country = v;
   }
+
+  int compareTo(Contact other) => _givenName.compareTo(other._givenName);
 }
 
 class Id extends FieldWidgets<Contact> {

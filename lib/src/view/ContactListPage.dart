@@ -21,17 +21,47 @@
 ///
 ///
 
+import 'package:flutter/material.dart'
+    show
+        AppBar,
+        Border,
+        BorderSide,
+        BoxDecoration,
+        Brightness,
+        BuildContext,
+        Center,
+        CircularProgressIndicator,
+        Colors,
+        Container,
+        DismissDirection,
+        FlatButton,
+        FloatingActionButton,
+        Icon,
+        Icons,
+        Key,
+        ListTile,
+        ListView,
+        MaterialPageRoute,
+        Navigator,
+        SafeArea,
+        Scaffold,
+        SnackBar,
+        SnackBarAction,
+        State,
+        StatefulWidget,
+        Text,
+        Theme,
+        ThemeData,
+        Widget;
+
 import 'package:mvc_application/app.dart' show App;
 
-import 'package:mvc_application/view.dart';
+import 'package:mvc_application/view.dart' show AppMenu, StateMVC;
 
-import 'package:flutter/material.dart';
+import 'package:contacts_service_example/view.dart'
+    show AppMenu, ContactDetailsPage, StateMVC;
 
-import 'package:contacts_service_example/model.dart';
-
-import 'package:contacts_service_example/view.dart';
-
-import 'package:contacts_service_example/controller.dart';
+import 'package:contacts_service_example/controller.dart' show Controller;
 
 class ContactListPage extends StatefulWidget {
   ContactListPage({Key key}) : super(key: key);
@@ -55,26 +85,31 @@ class _ContactListState extends StateMVC<ContactListPage> {
         platform: Theme.of(context).platform,
       ),
       child: Scaffold(
-        key: con.list.scaffoldKey,
+        key: Controller.list.scaffoldKey,
         appBar:
             AppBar(title: Text('Contacts Plugin Example'), actions: <Widget>[
+          FlatButton(
+              child: Icon(Icons.sort_by_alpha, color: Colors.white),
+              onPressed: () {
+                Controller.list.sort();
+              }),
           AppMenu.show(this),
-        ]),
+            ]),
         floatingActionButton: FloatingActionButton(
             child: Icon(Icons.add),
             onPressed: () {
               Navigator.of(context).pushNamed("/add").then((_) {
-                con.list.refresh();
+                Controller.list.refresh();
               });
             }),
         body: SafeArea(
-          child: con.list.items == null
+          child: Controller.list.items == null
               ? Center(child: CircularProgressIndicator())
               : ListView.builder(
-                  itemCount: con.list.items?.length ?? 0,
+                  itemCount: Controller.list.items?.length ?? 0,
                   itemBuilder: (BuildContext context, int index) {
                     Object c = con.child(index);
-                    return con.list.displayName.onDismissible(
+                    return Controller.list.displayName.onDismissible(
                       child: Container(
                         decoration: BoxDecoration(
                             color: _theme.canvasColor,
@@ -87,18 +122,19 @@ class _ContactListState extends StateMVC<ContactListPage> {
                                 builder: (BuildContext context) =>
                                     ContactDetailsPage(contact: c)));
                           },
-                          leading: con.list.displayName.circleAvatar,
-                          title: con.list.displayName.text,
+                          leading: Controller.list.displayName.circleAvatar,
+                          title: Controller.list.displayName.text,
                         ),
                       ),
                       dismissed: (DismissDirection direction) {
-                        Controller.delete(c);
-                        con.list.refresh();
+                        Controller.delete(c).then((_) {
+                          Controller.list.refresh();
+                        });
                         final String action =
                             (direction == DismissDirection.endToStart)
                                 ? 'deleted'
                                 : 'archived';
-                        con.list.scaffoldKey.currentState
+                        Controller.list.scaffoldKey.currentState
                             ?.showSnackBar(SnackBar(
                                 duration: Duration(milliseconds: 8000),
                                 content: Text('You $action an item.'),
@@ -106,7 +142,7 @@ class _ContactListState extends StateMVC<ContactListPage> {
                                     label: 'UNDO',
                                     onPressed: () {
                                       Controller.edit.undelete(c);
-                                      con.list.refresh();
+                                      Controller.list.refresh();
                                     })));
                       },
                     );

@@ -87,11 +87,12 @@ class ContactEdit extends ContactList {
     return ContactsService.addContact(contact.toMap);
   }
 
-  Future<int> delete([Contact contact]) {
+  Future<bool> delete([Contact contact]) async {
     if (contact == null) {
       contact = _contact;
     }
-    return ContactsService.deleteContact(contact.toMap);
+    bool delete = await ContactsService.deleteContact(contact.toMap);
+    return delete;
   }
 
   Future<int> undelete([Contact contact]) {
@@ -113,6 +114,11 @@ class ContactList extends ContactFields {
     _contacts = await Controller.getContacts();
     Controller.rebuild();
     return _contacts;
+  }
+
+  void sort() async {
+    _contacts = await Controller.sort();
+    Controller.rebuild();
   }
 
   void init([Object contact]) {
@@ -141,7 +147,7 @@ class ContactList extends ContactFields {
   }
 }
 
-class ContactFields {
+class ContactFields{
   FieldWidgets<Contact> _id,
       _displayName,
       _givenName,

@@ -87,7 +87,7 @@ class _ContactListState extends StateMVC<ContactListPage> {
       child: Scaffold(
         key: Controller.list.scaffoldKey,
         appBar:
-            AppBar(title: Text('Contacts Plugin Example'), actions: <Widget>[
+            AppBar(title: Text('Contacts Example'), actions: <Widget>[
           FlatButton(
               child: Icon(Icons.sort_by_alpha, color: Colors.white),
               onPressed: () {

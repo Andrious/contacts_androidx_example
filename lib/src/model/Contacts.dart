@@ -24,11 +24,11 @@
 import 'package:flutter/material.dart'
     show BuildContext, FormState, GlobalKey, ScaffoldState;
 
-import 'package:contacts_service_example/controller.dart' show Controller;
+import 'package:contacts_androidx_example/controller.dart' show Controller;
 
-import 'package:contacts_service_example/view.dart' show FieldWidgets;
+import 'package:contacts_androidx_example/view.dart' show FieldWidgets;
 
-import 'package:contacts_service_example/model.dart'
+import 'package:contacts_androidx_example/model.dart'
     show
         City,
         Company,
@@ -125,7 +125,7 @@ class ContactList extends ContactFields {
     if (contact == null) {
       _contact = Contact();
     } else {
-      if(contact is! Contact) return;
+      if (contact is! Contact) return;
       _contact = (contact as Contact);
     }
     _id = Id(_contact);
@@ -147,7 +147,7 @@ class ContactList extends ContactFields {
   }
 }
 
-class ContactFields{
+class ContactFields {
   FieldWidgets<Contact> _id,
       _displayName,
       _givenName,

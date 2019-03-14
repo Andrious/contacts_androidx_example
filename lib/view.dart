@@ -21,7 +21,7 @@
 ///
 ///
 
-export 'package:mvc_application/view.dart';
+export 'package:mxc_application/view.dart';
 
 export 'src/view/ContractsExampleApp.dart';
 

@@ -54,14 +54,14 @@ import 'package:flutter/material.dart'
         ThemeData,
         Widget;
 
-import 'package:mvc_application/app.dart' show App;
+import 'package:mxc_application/app.dart' show App;
 
-import 'package:mvc_application/view.dart' show AppMenu, StateMVC;
+import 'package:mxc_application/view.dart' show AppMenu, StateMVC;
 
-import 'package:contacts_service_example/view.dart'
+import 'package:contacts_androidx_example/view.dart'
     show AppMenu, ContactDetailsPage, StateMVC;
 
-import 'package:contacts_service_example/controller.dart' show Controller;
+import 'package:contacts_androidx_example/controller.dart' show Controller;
 
 class ContactListPage extends StatefulWidget {
   ContactListPage({Key key}) : super(key: key);
@@ -86,15 +86,14 @@ class _ContactListState extends StateMVC<ContactListPage> {
       ),
       child: Scaffold(
         key: Controller.list.scaffoldKey,
-        appBar:
-            AppBar(title: Text('Contacts Example'), actions: <Widget>[
+        appBar: AppBar(title: Text('Contacts Example'), actions: <Widget>[
           FlatButton(
               child: Icon(Icons.sort_by_alpha, color: Colors.white),
               onPressed: () {
                 Controller.list.sort();
               }),
           AppMenu.show(this),
-            ]),
+        ]),
         floatingActionButton: FloatingActionButton(
             child: Icon(Icons.add),
             onPressed: () {

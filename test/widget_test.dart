@@ -8,7 +8,7 @@ import 'package:flutter/services.dart';
 
 import 'package:flutter_test/flutter_test.dart';
 
-import 'package:mvc_application/view.dart' show Item;
+import 'package:mxc_application/view.dart' show Item;
 
 import '../lib/model.dart' show Contact, ContactsService, PostalAddress;
 

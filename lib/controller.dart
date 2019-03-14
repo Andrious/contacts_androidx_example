@@ -21,6 +21,6 @@
 ///
 ///
 
-export 'package:mvc_application/controller.dart' show ControllerMVC;
+export 'package:mxc_application/controller.dart' show ControllerMVC;
 
 export 'src/controller/Controller.dart';

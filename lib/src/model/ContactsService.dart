@@ -25,9 +25,7 @@ import 'dart:async' show Future;
 import 'dart:core'
     show Future, List, Map, MapEntry, String, bool, dynamic, int, override;
 
-import 'package:sqflite/sqflite.dart' show Database;
-
-import 'package:dbutils/sqllitedb.dart' show DBInterface;
+import 'package:mxc_application/model.dart' show Database, DBInterface;
 
 import '../../model.dart' show Contact;
 
@@ -142,7 +140,6 @@ class ContactsService extends DBInterface {
   }
 
   static Future<bool> addContact(Map contact) async {
-//   return _this.runTxn(() async {
     bool add = await _this.saveMap('Contacts', contact);
     if (add) {
       Map map = Map();

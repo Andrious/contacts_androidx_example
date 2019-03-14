@@ -41,11 +41,12 @@ import 'package:flutter/material.dart'
         Text,
         Widget;
 
-import 'package:contacts_service_example/model.dart' show Contact, PostalAddress;
+import 'package:contacts_androidx_example/model.dart'
+    show Contact, PostalAddress;
 
-import 'package:contacts_service_example/view.dart' show StateMVC;
+import 'package:contacts_androidx_example/view.dart' show StateMVC;
 
-import 'package:contacts_service_example/controller.dart' show Controller;
+import 'package:contacts_androidx_example/controller.dart' show Controller;
 
 class AddContactPage extends StatefulWidget {
   AddContactPage({this.contact, this.title, Key key}) : super(key: key);
@@ -107,5 +108,3 @@ class _AddContactState extends StateMVC<AddContactPage> {
     );
   }
 }
-
-

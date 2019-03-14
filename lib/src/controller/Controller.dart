@@ -21,15 +21,15 @@
 ///
 ///
 
-import 'package:flutter/material.dart';
+import 'package:flutter/material.dart' show FlutterError, FlutterErrorDetails;
 
-import 'package:mvc_application/app.dart' show Prefs;
+import 'package:mxc_application/app.dart' show Prefs;
 
 /// The Controller talks to the Model
-import 'package:contacts_service_example/model.dart'
+import 'package:contacts_androidx_example/model.dart'
     show Contact, ContactsService, ContactAdd, ContactEdit, ContactList;
 
-import 'package:contacts_service_example/controller.dart' show ControllerMVC;
+import 'package:contacts_androidx_example/controller.dart' show ControllerMVC;
 
 class Controller extends ControllerMVC {
   factory Controller() {

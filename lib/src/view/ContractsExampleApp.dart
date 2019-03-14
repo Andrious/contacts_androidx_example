@@ -23,9 +23,10 @@
 
 import 'package:flutter/material.dart' show BuildContext;
 
-import 'package:mvc_application/mvc.dart' show ViewMVC;
+import 'package:mxc_application/mvc.dart' show ViewMVC;
 
-import 'package:contacts_service_example/view.dart' show AddContactPage, ContactListPage;
+import 'package:contacts_androidx_example/view.dart'
+    show AddContactPage, ContactListPage;
 
 class ContactsExampleApp extends ViewMVC {
   ContactsExampleApp()
@@ -33,13 +34,4 @@ class ContactsExampleApp extends ViewMVC {
             title: 'Contacts Plugin Example',
             routes: {'/add': (BuildContext context) => AddContactPage()},
             home: ContactListPage());
-
-  Future<bool> init() async {
-    bool init = await super.init();
-    if(init){
-
-    }
-    return init;
-  }
-
 }

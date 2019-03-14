@@ -21,18 +21,42 @@
 ///
 ///
 
-import 'package:flutter/material.dart';
+import 'package:flutter/material.dart'
+    show
+        AppBar,
+        Brightness,
+        BuildContext,
+        Colors,
+        CustomScrollView,
+        FlatButton,
+        Icon,
+        Icons,
+        Key,
+        MaterialPageRoute,
+        Navigator,
+        Scaffold,
+        SliverChildListDelegate,
+        SliverList,
+        StatelessWidget,
+        Theme,
+        ThemeData,
+        Widget;
 
-import 'package:mvc_application/app.dart' show App;
+import 'package:mxc_application/app.dart' show App;
 
-import 'package:uxutils/view.dart'
-    show EditBarButton, HomeBarButton, SearchBarButton, SimpleBottomAppBar;
+import 'package:mxc_application/view.dart'
+    show
+        EditBarButton,
+        HomeBarButton,
+        SearchBarButton,
+        SimpleBottomAppBar,
+        showBox;
 
-import 'package:contacts_service_example/model.dart' show Contact;
+import 'package:contacts_androidx_example/model.dart' show Contact;
 
-import 'package:contacts_service_example/view.dart' show AddContactPage;
+import 'package:contacts_androidx_example/view.dart' show AddContactPage;
 
-import 'package:contacts_service_example/controller.dart' show Controller;
+import 'package:contacts_androidx_example/controller.dart' show Controller;
 
 enum AppBarBehavior { normal, pinned, floating, snapping }
 
@@ -59,10 +83,13 @@ class ContactDetailsPage extends StatelessWidget {
               FlatButton(
                   child: Icon(Icons.delete, color: Colors.white),
                   onPressed: () {
-                    Controller.delete(contact).then((bool delete) {
-                      if(delete)
-                        Controller.list.refresh();
-                      Navigator.of(context).pop();
+                    showBox(text: 'Delete this contact?', context: context)
+                        .then((bool delete) {
+                      if (delete)
+                        Controller.delete(contact).then((bool delete) {
+                          if (delete) Controller.list.refresh();
+                          Navigator.of(context).pop();
+                        });
                     });
                   }),
             ]),
@@ -105,9 +132,7 @@ class ContactDetailsPage extends StatelessWidget {
                   Controller.edit.email.listItems,
                 ]),
               )
-            ])
-        )
-    );
+            ])));
   }
 
   editContact(Contact contact, BuildContext context) {
